@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>PriceInDimes</title>
+    <meta name='wot-verification' content='5cb29ec02479d36e6dbc' />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Elmlog" />
+    <meta property="og:description" content="Elmlog" />
+    <meta property="og:url" content="https://priceindimes.org/" />
+    <meta property="og:site_name" content="PriceInDimes" />
+    <meta property="og:image" content="https://priceindimes.com/images/elmlog-360x360.png"/>
+    <meta property="og:image:width" content="360" />
+    <meta property="og:image:height" content="360" />
+    <link href='/images/icon-180.png' rel='apple-touch-icon' sizes='180x180' >
+    <link rel="manifest" href="manifest.webmanifest" >
+    <script type='text/javascript' src='worker.js'></script>
+    <script type='text/javascript' src='elm.js'></script>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  </head>
+  <body style='width: 40em; margin: auto; margin-top: 2em;'>
+    <noscript>
+      <h2 style='text-align: center;'>PriceInDimes</h2>
+      <p>PriceInDimes is a webapp that converts prices from USD to silver dimes.</p>
+      <p style='font-color: red;'>
+        <b>PriceInDimes requires JavaScript to function. Without JavaScript,
+          this page is all you'll ever see.</b>
+      </p>
+      <p style='text-align: center;'>
+        <img src='images/priceindimes.jpg' width='360' height='360' alt='Elmlog'/>
+      </p>
+      <p style='text-align: center;'>
+        <a href='https://github.com/billstclair/priceindimes'>GitHub</a>
+      </p>
+    </noscript>
+    <script type='text/javascript'>
+      // It's an application, so it doesn't need a div.
+      if (typeof Elm !== 'undefined') {
+        var elm = Elm;
+        if (!elm) {
+          console.log("elm.js does not define the symbol 'Elm'.");
+        } else {
+          var app = elm['Main'];
+          if (!app) {
+            console.log("Elm.Main.app is not defined.");
+          } else {
+            app = app.init({ flags: true });
+            //PortFunnel.subscribe(app);
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
