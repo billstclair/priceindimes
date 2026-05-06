@@ -15,8 +15,8 @@ module Main exposing (main)
 import Browser exposing (Document, UrlRequest(..))
 import Browser.Navigation as Navigation exposing (Key)
 import Cmd.Extra exposing (addCmd, withCmd, withCmds, withNoCmd)
-import Html exposing (Html, a, div, fieldset, img, input, legend, p, span, text, textarea, ul)
-import Html.Attributes exposing (checked, disabled, href, name, src, style, type_, value, width)
+import Html exposing (Html, a, div, fieldset, iframe, img, input, legend, p, span, text, textarea, ul)
+import Html.Attributes exposing (checked, disabled, height, href, name, src, style, type_, value, width)
 import Json.Encode as JE exposing (Value)
 import Url exposing (Url)
 
@@ -65,7 +65,14 @@ view model =
             [ style "margin" "10px"
             , style "height" "90%"
             ]
-            [ h1 "PriceInDimes.com" ]
+            [ h1 "PriceInDimes.com"
+            , iframe
+                [ src "https://www.kitco.com/price/precious-metals"
+                , width 400
+                , height 400
+                ]
+                []
+            ]
         ]
     }
 

@@ -5194,8 +5194,35 @@ var $author$project$Main$h1 = function (string) {
 				$elm$html$Html$text(string)
 			]));
 };
+var $elm$html$Html$Attributes$height = function (n) {
+	return A2(
+		_VirtualDom_attribute,
+		'height',
+		$elm$core$String$fromInt(n));
+};
+var $elm$html$Html$iframe = _VirtualDom_node('iframe');
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $elm$html$Html$Attributes$width = function (n) {
+	return A2(
+		_VirtualDom_attribute,
+		'width',
+		$elm$core$String$fromInt(n));
+};
 var $author$project$Main$view = function (model) {
 	return {
 		body: _List_fromArray(
@@ -5209,7 +5236,16 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						$author$project$Main$h1('PriceInDimes.com')
+						$author$project$Main$h1('PriceInDimes.com'),
+						A2(
+						$elm$html$Html$iframe,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$src('https://www.kitco.com/price/precious-metals'),
+								$elm$html$Html$Attributes$width(400),
+								$elm$html$Html$Attributes$height(400)
+							]),
+						_List_Nil)
 					]))
 			]),
 		title: 'PriceInDimes'
