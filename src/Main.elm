@@ -88,6 +88,10 @@ br =
     Html.br [] []
 
 
+pINPUT_SIZE =
+    10
+
+
 view : Model -> Document Msg
 view model =
     { title = "PriceInDimes"
@@ -96,7 +100,15 @@ view model =
             [ style "margin" "10px"
             , style "height" "90%"
             ]
-            [ h1 "PriceInDimes.com"
+            [ h1 "Priced In Dimes"
+            , div []
+                [ img
+                    [ src "images/icon-192.png"
+                    , width 192
+                    , height 192
+                    ]
+                    []
+                ]
             , let
                 dimes =
                     model.price / model.dollarsPerOz * 10 / 0.9
@@ -107,7 +119,7 @@ view model =
                     , td [ style "text-align" "right" ]
                         [ input
                             [ type_ "text"
-                            , size 20
+                            , size pINPUT_SIZE
                             , style "text-align" "right"
                             , id "Price"
                             , onFocus (DoFocus "price")
@@ -118,11 +130,11 @@ view model =
                         ]
                     ]
                 , tr []
-                    [ th [] [ b "Dollars per oz" ]
-                    , td [ style "text-alignt" "right" ]
+                    [ th [] [ b "Dollars/oz:" ]
+                    , td [ style "text-align" "right" ]
                         [ input
                             [ type_ "text"
-                            , size 20
+                            , size pINPUT_SIZE
                             , style "text-align" "right"
                             , onInput InputDollarsPerOz
                             , onFocus (DoFocus "dollarsPerOz")
@@ -135,7 +147,12 @@ view model =
                 , tr []
                     [ th [] [ b "Dimes" ]
                     , td [ style "text-alignt" "right" ]
-                        [ text <| String.fromFloat dimes ]
+                        [ truncate (10.0 * dimes)
+                            |> toFloat
+                            |> (\x -> x / 10.0)
+                            |> String.fromFloat
+                            |> text
+                        ]
                     ]
                 ]
             , br

@@ -5341,6 +5341,7 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 	});
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$html$Html$iframe = _VirtualDom_node('iframe');
+var $elm$html$Html$img = _VirtualDom_node('img');
 var $elm$html$Html$input = _VirtualDom_node('input');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
@@ -5392,6 +5393,7 @@ var $elm$html$Html$Events$onInput = function (tagger) {
 			$elm$html$Html$Events$alwaysStop,
 			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
 };
+var $author$project$Main$pINPUT_SIZE = 10;
 var $elm$html$Html$Attributes$size = function (n) {
 	return A2(
 		_VirtualDom_attribute,
@@ -5410,6 +5412,7 @@ var $elm$html$Html$table = _VirtualDom_node('table');
 var $elm$html$Html$td = _VirtualDom_node('td');
 var $elm$html$Html$th = _VirtualDom_node('th');
 var $elm$html$Html$tr = _VirtualDom_node('tr');
+var $elm$core$Basics$truncate = _Basics_truncate;
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
 var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
 var $elm$html$Html$Attributes$width = function (n) {
@@ -5431,7 +5434,22 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						$author$project$Main$h1('PriceInDimes.com'),
+						$author$project$Main$h1('Priced In Dimes'),
+						A2(
+						$elm$html$Html$div,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$img,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$src('images/icon-192.png'),
+										$elm$html$Html$Attributes$width(192),
+										$elm$html$Html$Attributes$height(192)
+									]),
+								_List_Nil)
+							])),
 						function () {
 						var dimes = ((model.price / model.dollarsPerOz) * 10) / 0.9;
 						return A2(
@@ -5464,7 +5482,7 @@ var $author$project$Main$view = function (model) {
 													_List_fromArray(
 														[
 															$elm$html$Html$Attributes$type_('text'),
-															$elm$html$Html$Attributes$size(20),
+															$elm$html$Html$Attributes$size($author$project$Main$pINPUT_SIZE),
 															A2($elm$html$Html$Attributes$style, 'text-align', 'right'),
 															$elm$html$Html$Attributes$id('Price'),
 															$elm$html$Html$Events$onFocus(
@@ -5485,13 +5503,13 @@ var $author$project$Main$view = function (model) {
 											_List_Nil,
 											_List_fromArray(
 												[
-													$author$project$Main$b('Dollars per oz')
+													$author$project$Main$b('Dollars/oz:')
 												])),
 											A2(
 											$elm$html$Html$td,
 											_List_fromArray(
 												[
-													A2($elm$html$Html$Attributes$style, 'text-alignt', 'right')
+													A2($elm$html$Html$Attributes$style, 'text-align', 'right')
 												]),
 											_List_fromArray(
 												[
@@ -5500,7 +5518,7 @@ var $author$project$Main$view = function (model) {
 													_List_fromArray(
 														[
 															$elm$html$Html$Attributes$type_('text'),
-															$elm$html$Html$Attributes$size(20),
+															$elm$html$Html$Attributes$size($author$project$Main$pINPUT_SIZE),
 															A2($elm$html$Html$Attributes$style, 'text-align', 'right'),
 															$elm$html$Html$Events$onInput($author$project$Main$InputDollarsPerOz),
 															$elm$html$Html$Events$onFocus(
@@ -5532,7 +5550,10 @@ var $author$project$Main$view = function (model) {
 											_List_fromArray(
 												[
 													$elm$html$Html$text(
-													$elm$core$String$fromFloat(dimes))
+													$elm$core$String$fromFloat(
+														function (x) {
+															return x / 10.0;
+														}((10.0 * dimes) | 0)))
 												]))
 										]))
 								]));
