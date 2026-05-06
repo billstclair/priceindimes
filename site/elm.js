@@ -5181,15 +5181,107 @@ var $Janiczek$cmd_extra$Cmd$Extra$withNoCmd = function (model) {
 var $author$project$Main$init = F3(
 	function (flags, url, key) {
 		return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(
-			{key: key, url: url});
+			{dollarsPerOz: 76.83, dollarsPerOzInput: '76.83', key: key, price: 1.0, priceInput: '1.0', url: url});
 	});
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $author$project$Main$AfterFocus = F2(
+	function (a, b) {
+		return {$: 'AfterFocus', a: a, b: b};
+	});
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var $elm$core$Task$onError = _Scheduler_onError;
+var $elm$core$Task$attempt = F2(
+	function (resultToMessage, task) {
+		return $elm$core$Task$command(
+			$elm$core$Task$Perform(
+				A2(
+					$elm$core$Task$onError,
+					A2(
+						$elm$core$Basics$composeL,
+						A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
+						$elm$core$Result$Err),
+					A2(
+						$elm$core$Task$andThen,
+						A2(
+							$elm$core$Basics$composeL,
+							A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
+							$elm$core$Result$Ok),
+						task))));
+	});
+var $elm$browser$Browser$Dom$focus = _Browser_call('focus');
+var $elm$core$Debug$log = _Debug_log;
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $author$project$Main$selectAll = _Platform_outgoingPort('selectAll', $elm$json$Json$Encode$string);
+var $elm$core$String$toFloat = _String_toFloat;
+var $Janiczek$cmd_extra$Cmd$Extra$withCmd = F2(
+	function (cmd, model) {
+		return _Utils_Tuple2(model, cmd);
+	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 'Nop':
 				return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(model);
+			case 'DoFocus':
+				var id = msg.a;
+				return A2(
+					$Janiczek$cmd_extra$Cmd$Extra$withCmd,
+					A2(
+						$elm$core$Task$attempt,
+						$author$project$Main$AfterFocus(id),
+						$elm$browser$Browser$Dom$focus(id)),
+					model);
+			case 'AfterFocus':
+				var id = msg.a;
+				var result = msg.b;
+				if (result.$ === 'Err') {
+					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(model);
+				} else {
+					return A2(
+						$Janiczek$cmd_extra$Cmd$Extra$withCmd,
+						$author$project$Main$selectAll(
+							A2($elm$core$Debug$log, 'SelectAll', id)),
+						model);
+				}
+			case 'InputPrice':
+				var string = msg.a;
+				var m = _Utils_update(
+					model,
+					{
+						priceInput: A2($elm$core$Debug$log, 'InputPrice', string)
+					});
+				var _v2 = $elm$core$String$toFloat(string);
+				if (_v2.$ === 'Just') {
+					var price = _v2.a;
+					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(
+						_Utils_update(
+							m,
+							{price: price}));
+				} else {
+					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(m);
+				}
+			case 'InputDollarsPerOz':
+				var string = msg.a;
+				var m = _Utils_update(
+					model,
+					{
+						dollarsPerOzInput: A2($elm$core$Debug$log, 'InputDollarsPerOz', string)
+					});
+				var _v3 = $elm$core$String$toFloat(string);
+				if (_v3.$ === 'Just') {
+					var dollarsPerOz = _v3.a;
+					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(
+						_Utils_update(
+							m,
+							{dollarsPerOz: dollarsPerOz}));
+				} else {
+					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(m);
+				}
 			case 'OnUrlChange':
 				var url = msg.a;
 				return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(model);
@@ -5199,10 +5291,32 @@ var $author$project$Main$update = F2(
 		}
 	});
 var $elm$json$Json$Decode$value = _Json_decodeValue;
-var $elm$html$Html$div = _VirtualDom_node('div');
-var $elm$html$Html$h1 = _VirtualDom_node('h1');
+var $author$project$Main$DoFocus = function (a) {
+	return {$: 'DoFocus', a: a};
+};
+var $author$project$Main$InputDollarsPerOz = function (a) {
+	return {$: 'InputDollarsPerOz', a: a};
+};
+var $author$project$Main$InputPrice = function (a) {
+	return {$: 'InputPrice', a: a};
+};
+var $elm$html$Html$b = _VirtualDom_node('b');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Main$b = function (string) {
+	return A2(
+		$elm$html$Html$b,
+		_List_Nil,
+		_List_fromArray(
+			[
+				$elm$html$Html$text(string)
+			]));
+};
+var $elm$html$Html$br = _VirtualDom_node('br');
+var $author$project$Main$br = A2($elm$html$Html$br, _List_Nil, _List_Nil);
+var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$core$String$fromFloat = _String_fromNumber;
+var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $author$project$Main$h1 = function (string) {
 	return A2(
 		$elm$html$Html$h1,
@@ -5218,8 +5332,6 @@ var $elm$html$Html$Attributes$height = function (n) {
 		'height',
 		$elm$core$String$fromInt(n));
 };
-var $elm$html$Html$iframe = _VirtualDom_node('iframe');
-var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
 		return A2(
@@ -5227,6 +5339,65 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			key,
 			$elm$json$Json$Encode$string(string));
 	});
+var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
+var $elm$html$Html$iframe = _VirtualDom_node('iframe');
+var $elm$html$Html$input = _VirtualDom_node('input');
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 'Normal', a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$html$Html$Events$onFocus = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'focus',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $elm$html$Html$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 'MayStopPropagation', a: a};
+};
+var $elm$html$Html$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
+	});
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $elm$html$Html$Events$targetValue = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	$elm$json$Json$Decode$string);
+var $elm$html$Html$Events$onInput = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$stopPropagationOn,
+		'input',
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$html$Html$Events$alwaysStop,
+			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
+};
+var $elm$html$Html$Attributes$size = function (n) {
+	return A2(
+		_VirtualDom_attribute,
+		'size',
+		$elm$core$String$fromInt(n));
+};
 var $elm$html$Html$Attributes$src = function (url) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -5235,6 +5406,12 @@ var $elm$html$Html$Attributes$src = function (url) {
 };
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $elm$html$Html$table = _VirtualDom_node('table');
+var $elm$html$Html$td = _VirtualDom_node('td');
+var $elm$html$Html$th = _VirtualDom_node('th');
+var $elm$html$Html$tr = _VirtualDom_node('tr');
+var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
+var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
 var $elm$html$Html$Attributes$width = function (n) {
 	return A2(
 		_VirtualDom_attribute,
@@ -5255,6 +5432,112 @@ var $author$project$Main$view = function (model) {
 				_List_fromArray(
 					[
 						$author$project$Main$h1('PriceInDimes.com'),
+						function () {
+						var dimes = ((model.price / model.dollarsPerOz) * 10) / 0.9;
+						return A2(
+							$elm$html$Html$table,
+							_List_Nil,
+							_List_fromArray(
+								[
+									A2(
+									$elm$html$Html$tr,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											$elm$html$Html$th,
+											_List_Nil,
+											_List_fromArray(
+												[
+													$author$project$Main$b('Price:')
+												])),
+											A2(
+											$elm$html$Html$td,
+											_List_fromArray(
+												[
+													A2($elm$html$Html$Attributes$style, 'text-align', 'right')
+												]),
+											_List_fromArray(
+												[
+													A2(
+													$elm$html$Html$input,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$type_('text'),
+															$elm$html$Html$Attributes$size(20),
+															A2($elm$html$Html$Attributes$style, 'text-align', 'right'),
+															$elm$html$Html$Attributes$id('Price'),
+															$elm$html$Html$Events$onFocus(
+															$author$project$Main$DoFocus('price')),
+															$elm$html$Html$Events$onInput($author$project$Main$InputPrice),
+															$elm$html$Html$Attributes$value(model.priceInput)
+														]),
+													_List_Nil)
+												]))
+										])),
+									A2(
+									$elm$html$Html$tr,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											$elm$html$Html$th,
+											_List_Nil,
+											_List_fromArray(
+												[
+													$author$project$Main$b('Dollars per oz')
+												])),
+											A2(
+											$elm$html$Html$td,
+											_List_fromArray(
+												[
+													A2($elm$html$Html$Attributes$style, 'text-alignt', 'right')
+												]),
+											_List_fromArray(
+												[
+													A2(
+													$elm$html$Html$input,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$type_('text'),
+															$elm$html$Html$Attributes$size(20),
+															A2($elm$html$Html$Attributes$style, 'text-align', 'right'),
+															$elm$html$Html$Events$onInput($author$project$Main$InputDollarsPerOz),
+															$elm$html$Html$Events$onFocus(
+															$author$project$Main$DoFocus('dollarsPerOz')),
+															$elm$html$Html$Attributes$id('DollarsPerOzInput'),
+															$elm$html$Html$Attributes$value(model.dollarsPerOzInput)
+														]),
+													_List_Nil)
+												]))
+										])),
+									A2(
+									$elm$html$Html$tr,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											$elm$html$Html$th,
+											_List_Nil,
+											_List_fromArray(
+												[
+													$author$project$Main$b('Dimes')
+												])),
+											A2(
+											$elm$html$Html$td,
+											_List_fromArray(
+												[
+													A2($elm$html$Html$Attributes$style, 'text-alignt', 'right')
+												]),
+											_List_fromArray(
+												[
+													$elm$html$Html$text(
+													$elm$core$String$fromFloat(dimes))
+												]))
+										]))
+								]));
+					}(),
+						$author$project$Main$br,
 						A2(
 						$elm$html$Html$iframe,
 						_List_fromArray(
