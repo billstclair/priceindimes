@@ -101,8 +101,8 @@ view model =
             [ style "margin" "10px"
             , style "height" "90%"
             ]
-            [ h1 "Priced In Dimes"
-            , div []
+            [ h1 "Price In Dimes"
+            , p []
                 [ img
                     [ src "images/icon-192.png"
                     , width 192

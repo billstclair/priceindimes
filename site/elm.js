@@ -5469,9 +5469,9 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						$author$project$Main$h1('Priced In Dimes'),
+						$author$project$Main$h1('Price In Dimes'),
 						A2(
-						$elm$html$Html$div,
+						$elm$html$Html$p,
 						_List_Nil,
 						_List_fromArray(
 							[
