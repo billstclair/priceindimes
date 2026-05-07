@@ -5486,7 +5486,7 @@ var $author$project$Main$view = function (model) {
 								_List_Nil)
 							])),
 						function () {
-						var dimes = (model.price / model.dollarsPerOz) / 0.07734;
+						var dimes = (model.price / model.dollarsPerOz) / (0.7734 / 10);
 						return A2(
 							$elm$html$Html$table,
 							_List_Nil,
@@ -5622,7 +5622,7 @@ var $author$project$Main$view = function (model) {
 											_List_fromArray(
 												[
 													$elm$html$Html$text($author$project$Main$chars.nbsp),
-													$elm$html$Html$text('0.7734 * 10 dimes/oz')
+													$elm$html$Html$text('0.7734/10 oz/dime')
 												]))
 										]))
 								]));

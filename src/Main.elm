@@ -115,7 +115,7 @@ view model =
                 -- A dime is 1/10 that much.
                 -- one dime = 0.0734 troy ounces.
                 dimes =
-                    model.price / model.dollarsPerOz / 0.07734
+                    model.price / model.dollarsPerOz / (0.7734 / 10)
               in
               table []
                 [ tr []
@@ -168,7 +168,7 @@ view model =
                         ]
                     , td [ style "text-align" "left" ]
                         [ text chars.nbsp
-                        , text "0.7734 * 10 dimes/oz"
+                        , text "0.7734/10 oz/dime"
                         ]
                     ]
                 ]
