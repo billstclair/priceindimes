@@ -1,6 +1,7 @@
 {
   "short_name": "PriceInDimes",
   "name": "PriceInDimes",
+  "orientation": "portrait",
   "id" : "/",
   "description": "Convert dollars to silver dimes.",
   "icons": [

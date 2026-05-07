@@ -110,8 +110,11 @@ view model =
                     []
                 ]
             , let
+                -- One silver dollar is 0.7734 troy ounces.
+                -- A dime is 1/10 that much.
+                -- one dime = 0.0734 troy ounces.
                 dimes =
-                    model.price / model.dollarsPerOz * 10 / 0.9
+                    model.price / model.dollarsPerOz / 0.07734
               in
               table []
                 [ tr []
@@ -128,6 +131,10 @@ view model =
                             ]
                             []
                         ]
+                    , td [ style "text-align" "left" ]
+                        [ text chars.nbsp
+                        , text "$"
+                        ]
                     ]
                 , tr []
                     [ th [] [ b "Dollars/oz:" ]
@@ -143,15 +150,24 @@ view model =
                             ]
                             []
                         ]
+                    , td [ style "text-align" "left" ]
+                        [ text chars.nbsp
+                        , text "$/oz"
+                        ]
                     ]
                 , tr []
-                    [ th [] [ b "Dimes" ]
-                    , td [ style "text-alignt" "right" ]
+                    [ th [] [ b "Dimes:" ]
+                    , td [ style "text-align" "right" ]
                         [ truncate (10.0 * dimes)
                             |> toFloat
                             |> (\x -> x / 10.0)
                             |> String.fromFloat
+                            |> addPointZero
                             |> text
+                        ]
+                    , td [ style "text-align" "left" ]
+                        [ text chars.nbsp
+                        , text "$ / ($/oz) / (0.7734 * 10 dimes/oz)"
                         ]
                     ]
                 ]
@@ -165,6 +181,26 @@ view model =
             ]
         ]
     }
+
+
+codestr code =
+    String.fromList [ Char.fromCode code ]
+
+
+chars =
+    { leftCurlyQuote = codestr 0x201C
+    , copyright = codestr 0xA9
+    , nbsp = codestr 0xA0
+    }
+
+
+addPointZero : String -> String
+addPointZero string =
+    if String.contains "." string then
+        string
+
+    else
+        string ++ ".0"
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

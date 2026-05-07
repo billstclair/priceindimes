@@ -134,8 +134,7 @@ function _Utils_eqHelp(x, y, depth, stack)
 	}
 	//*/
 
-	for (var key in x)
-	{
+	for (var __keys_key = Object.keys(x), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		if (!_Utils_eqHelp(x[key], y[key], depth + 1, stack))
 		{
 			return false;
@@ -222,13 +221,11 @@ function _Utils_update(oldRecord, updatedFields)
 {
 	var newRecord = {};
 
-	for (var key in oldRecord)
-	{
+	for (var __keys_key = Object.keys(oldRecord), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		newRecord[key] = oldRecord[key];
 	}
 
-	for (var key in updatedFields)
-	{
+	for (var __keys_key = Object.keys(updatedFields), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		newRecord[key] = updatedFields[key];
 	}
 
@@ -579,8 +576,7 @@ function _Debug_toAnsiString(ansi, value)
 		if (tag[0] === '#')
 		{
 			var output = [];
-			for (var k in value)
-			{
+			for (var __keys_k = Object.keys(value), __i_k = 0; __i_k < __keys_k.length; __i_k++) { var k = __keys_k[__i_k];
 				if (k === '$') continue;
 				output.push(_Debug_toAnsiString(ansi, value[k]));
 			}
@@ -622,8 +618,7 @@ function _Debug_toAnsiString(ansi, value)
 		}
 
 		var output = '';
-		for (var i in value)
-		{
+		for (var __keys_i = Object.keys(value), __i_i = 0; __i_i < __keys_i.length; __i_i++) { var i = __keys_i[__i_i];
 			if (i === '$') continue;
 			var str = _Debug_toAnsiString(ansi, value[i]);
 			var c0 = str[0];
@@ -646,8 +641,7 @@ function _Debug_toAnsiString(ansi, value)
 	if (typeof value === 'object')
 	{
 		var output = [];
-		for (var key in value)
-		{
+		for (var __keys_key = Object.keys(value), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 			var field = key[0] === '_' ? key.slice(1) : key;
 			output.push(_Debug_fadeColor(ansi, field) + ' = ' + _Debug_toAnsiString(ansi, value[key]));
 		}
@@ -1456,8 +1450,7 @@ function _Json_runHelp(decoder, value)
 
 			var keyValuePairs = _List_Nil;
 			// TODO test perf of Object.keys and switch when support is good enough
-			for (var key in value)
-			{
+			for (var __keys_key = Object.keys(value), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 				if (Object.prototype.hasOwnProperty.call(value, key))
 				{
 					var result = _Json_runHelp(decoder.b, value[key]);
@@ -1925,8 +1918,7 @@ function _Platform_setupEffects(managers, sendToApp)
 	var ports;
 
 	// setup all necessary effect managers
-	for (var key in _Platform_effectManagers)
-	{
+	for (var __keys_key = Object.keys(_Platform_effectManagers), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var manager = _Platform_effectManagers[key];
 
 		if (manager.a)
@@ -2101,8 +2093,7 @@ function _Platform_dispatchEffects(managers, cmdBag, subBag)
 	_Platform_gatherEffects(true, cmdBag, effectsDict, null);
 	_Platform_gatherEffects(false, subBag, effectsDict, null);
 
-	for (var home in managers)
-	{
+	for (var __keys_home = Object.keys(managers), __i_home = 0; __i_home < __keys_home.length; __i_home++) { var home = __keys_home[__i_home];
 		_Scheduler_rawSend(managers[home], {
 			$: 'fx',
 			a: effectsDict[home] || { i: _List_Nil, j: _List_Nil }
@@ -2330,8 +2321,7 @@ function _Platform_export_UNUSED(exports)
 
 function _Platform_mergeExportsProd(obj, exports)
 {
-	for (var name in exports)
-	{
+	for (var __keys_name = Object.keys(exports), __i_name = 0; __i_name < __keys_name.length; __i_name++) { var name = __keys_name[__i_name];
 		(name in obj)
 			? (name == 'init')
 				? _Debug_crash(6)
@@ -2351,8 +2341,7 @@ function _Platform_export(exports)
 
 function _Platform_mergeExportsDebug(moduleName, obj, exports)
 {
-	for (var name in exports)
-	{
+	for (var __keys_name = Object.keys(exports), __i_name = 0; __i_name < __keys_name.length; __i_name++) { var name = __keys_name[__i_name];
 		(name in obj)
 			? (name == 'init')
 				? _Debug_crash(6, moduleName)
@@ -2846,8 +2835,7 @@ function _VirtualDom_render(vNode, eventNode)
 
 function _VirtualDom_applyFacts(domNode, eventNode, facts)
 {
-	for (var key in facts)
-	{
+	for (var __keys_key = Object.keys(facts), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var value = facts[key];
 
 		key === 'a1'
@@ -2875,8 +2863,7 @@ function _VirtualDom_applyStyles(domNode, styles)
 {
 	var domNodeStyle = domNode.style;
 
-	for (var key in styles)
-	{
+	for (var __keys_key = Object.keys(styles), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		domNodeStyle[key] = styles[key];
 	}
 }
@@ -2888,8 +2875,7 @@ function _VirtualDom_applyStyles(domNode, styles)
 
 function _VirtualDom_applyAttrs(domNode, attrs)
 {
-	for (var key in attrs)
-	{
+	for (var __keys_key = Object.keys(attrs), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var value = attrs[key];
 		typeof value !== 'undefined'
 			? domNode.setAttribute(key, value)
@@ -2904,8 +2890,7 @@ function _VirtualDom_applyAttrs(domNode, attrs)
 
 function _VirtualDom_applyAttrsNS(domNode, nsAttrs)
 {
-	for (var key in nsAttrs)
-	{
+	for (var __keys_key = Object.keys(nsAttrs), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var pair = nsAttrs[key];
 		var namespace = pair.f;
 		var value = pair.o;
@@ -2925,8 +2910,7 @@ function _VirtualDom_applyEvents(domNode, eventNode, events)
 {
 	var allCallbacks = domNode.elmFs || (domNode.elmFs = {});
 
-	for (var key in events)
-	{
+	for (var __keys_key = Object.keys(events), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var newHandler = events[key];
 		var oldCallback = allCallbacks[key];
 
@@ -3242,8 +3226,7 @@ function _VirtualDom_diffFacts(x, y, category)
 	var diff;
 
 	// look for changes and removals
-	for (var xKey in x)
-	{
+	for (var __keys_xKey = Object.keys(x), __i_xKey = 0; __i_xKey < __keys_xKey.length; __i_xKey++) { var xKey = __keys_xKey[__i_xKey];
 		if (xKey === 'a1' || xKey === 'a0' || xKey === 'a3' || xKey === 'a4')
 		{
 			var subDiff = _VirtualDom_diffFacts(x[xKey], y[xKey] || {}, xKey);
@@ -3289,8 +3272,7 @@ function _VirtualDom_diffFacts(x, y, category)
 	}
 
 	// add new stuff
-	for (var yKey in y)
-	{
+	for (var __keys_yKey = Object.keys(y), __i_yKey = 0; __i_yKey < __keys_yKey.length; __i_yKey++) { var yKey = __keys_yKey[__i_yKey];
 		if (!(yKey in x))
 		{
 			diff = diff || {};
@@ -5300,6 +5282,9 @@ var $author$project$Main$InputDollarsPerOz = function (a) {
 var $author$project$Main$InputPrice = function (a) {
 	return {$: 'InputPrice', a: a};
 };
+var $author$project$Main$addPointZero = function (string) {
+	return A2($elm$core$String$contains, '.', string) ? string : (string + '.0');
+};
 var $elm$html$Html$b = _VirtualDom_node('b');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
@@ -5314,6 +5299,20 @@ var $author$project$Main$b = function (string) {
 };
 var $elm$html$Html$br = _VirtualDom_node('br');
 var $author$project$Main$br = A2($elm$html$Html$br, _List_Nil, _List_Nil);
+var $elm$core$Char$fromCode = _Char_fromCode;
+var $elm$core$String$fromList = _String_fromList;
+var $author$project$Main$codestr = function (code) {
+	return $elm$core$String$fromList(
+		_List_fromArray(
+			[
+				$elm$core$Char$fromCode(code)
+			]));
+};
+var $author$project$Main$chars = {
+	copyright: $author$project$Main$codestr(169),
+	leftCurlyQuote: $author$project$Main$codestr(8220),
+	nbsp: $author$project$Main$codestr(160)
+};
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$core$String$fromFloat = _String_fromNumber;
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
@@ -5451,7 +5450,7 @@ var $author$project$Main$view = function (model) {
 								_List_Nil)
 							])),
 						function () {
-						var dimes = ((model.price / model.dollarsPerOz) * 10) / 0.9;
+						var dimes = (model.price / model.dollarsPerOz) / 0.07734;
 						return A2(
 							$elm$html$Html$table,
 							_List_Nil,
@@ -5491,6 +5490,17 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$Attributes$value(model.priceInput)
 														]),
 													_List_Nil)
+												])),
+											A2(
+											$elm$html$Html$td,
+											_List_fromArray(
+												[
+													A2($elm$html$Html$Attributes$style, 'text-align', 'left')
+												]),
+											_List_fromArray(
+												[
+													$elm$html$Html$text($author$project$Main$chars.nbsp),
+													$elm$html$Html$text('$')
 												]))
 										])),
 									A2(
@@ -5527,6 +5537,17 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$Attributes$value(model.dollarsPerOzInput)
 														]),
 													_List_Nil)
+												])),
+											A2(
+											$elm$html$Html$td,
+											_List_fromArray(
+												[
+													A2($elm$html$Html$Attributes$style, 'text-align', 'left')
+												]),
+											_List_fromArray(
+												[
+													$elm$html$Html$text($author$project$Main$chars.nbsp),
+													$elm$html$Html$text('$/oz')
 												]))
 										])),
 									A2(
@@ -5539,21 +5560,33 @@ var $author$project$Main$view = function (model) {
 											_List_Nil,
 											_List_fromArray(
 												[
-													$author$project$Main$b('Dimes')
+													$author$project$Main$b('Dimes:')
 												])),
 											A2(
 											$elm$html$Html$td,
 											_List_fromArray(
 												[
-													A2($elm$html$Html$Attributes$style, 'text-alignt', 'right')
+													A2($elm$html$Html$Attributes$style, 'text-align', 'right')
 												]),
 											_List_fromArray(
 												[
 													$elm$html$Html$text(
-													$elm$core$String$fromFloat(
-														function (x) {
-															return x / 10.0;
-														}((10.0 * dimes) | 0)))
+													$author$project$Main$addPointZero(
+														$elm$core$String$fromFloat(
+															function (x) {
+																return x / 10.0;
+															}((10.0 * dimes) | 0))))
+												])),
+											A2(
+											$elm$html$Html$td,
+											_List_fromArray(
+												[
+													A2($elm$html$Html$Attributes$style, 'text-align', 'left')
+												]),
+											_List_fromArray(
+												[
+													$elm$html$Html$text($author$project$Main$chars.nbsp),
+													$elm$html$Html$text('$ / ($/oz) / (0.7734 * 10 dimes/oz)')
 												]))
 										]))
 								]));
