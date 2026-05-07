@@ -20,7 +20,7 @@ import Browser.Navigation as Navigation exposing (Key)
 import Cmd.Extra exposing (addCmd, withCmd, withCmds, withNoCmd)
 import Html exposing (Html, a, div, fieldset, iframe, img, input, legend, p, span, table, td, text, textarea, th, tr, ul)
 import Html.Attributes exposing (align, checked, disabled, height, href, id, name, size, src, style, type_, value, width)
-import Html.Events exposing (onFocus, onInput)
+import Html.Events exposing (onClick, onFocus, onInput)
 import Json.Encode as JE exposing (Value)
 import Task exposing (Task)
 import Url exposing (Url)
@@ -55,6 +55,7 @@ type Msg
     | AfterFocus String (Result Dom.Error ())
     | OnUrlRequest UrlRequest
     | OnUrlChange Url
+    | ReloadFromServer
     | DoFocus String
     | InputPrice String
     | InputDollarsPerOz String
@@ -167,7 +168,7 @@ view model =
                         ]
                     , td [ style "text-align" "left" ]
                         [ text chars.nbsp
-                        , text "$ / ($/oz) / (0.7734 * 10 dimes/oz)"
+                        , text "0.7734 * 10 dimes/oz"
                         ]
                     ]
                 ]
@@ -178,6 +179,20 @@ view model =
                 , height 400
                 ]
                 []
+            , p []
+                [ a
+                    [ href "#"
+                    , onClick ReloadFromServer
+                    ]
+                    [ text "Reload from Server" ]
+                ]
+            , p []
+                [ text chars.copyright
+                , text "Copyright 2026, Bill St. Clair"
+                , br
+                , a [ href "https://github.com/billstclair/priceindimes" ]
+                    [ text "GitHub" ]
+                ]
             ]
         ]
     }
@@ -251,3 +266,6 @@ update msg model =
 
         OnUrlRequest url ->
             model |> withNoCmd
+
+        ReloadFromServer ->
+            model |> withCmd Navigation.reloadAndSkipCache

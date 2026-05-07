@@ -134,7 +134,8 @@ function _Utils_eqHelp(x, y, depth, stack)
 	}
 	//*/
 
-	for (var __keys_key = Object.keys(x), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
+	for (var key in x)
+	{
 		if (!_Utils_eqHelp(x[key], y[key], depth + 1, stack))
 		{
 			return false;
@@ -221,11 +222,13 @@ function _Utils_update(oldRecord, updatedFields)
 {
 	var newRecord = {};
 
-	for (var __keys_key = Object.keys(oldRecord), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
+	for (var key in oldRecord)
+	{
 		newRecord[key] = oldRecord[key];
 	}
 
-	for (var __keys_key = Object.keys(updatedFields), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
+	for (var key in updatedFields)
+	{
 		newRecord[key] = updatedFields[key];
 	}
 
@@ -576,7 +579,8 @@ function _Debug_toAnsiString(ansi, value)
 		if (tag[0] === '#')
 		{
 			var output = [];
-			for (var __keys_k = Object.keys(value), __i_k = 0; __i_k < __keys_k.length; __i_k++) { var k = __keys_k[__i_k];
+			for (var k in value)
+			{
 				if (k === '$') continue;
 				output.push(_Debug_toAnsiString(ansi, value[k]));
 			}
@@ -618,7 +622,8 @@ function _Debug_toAnsiString(ansi, value)
 		}
 
 		var output = '';
-		for (var __keys_i = Object.keys(value), __i_i = 0; __i_i < __keys_i.length; __i_i++) { var i = __keys_i[__i_i];
+		for (var i in value)
+		{
 			if (i === '$') continue;
 			var str = _Debug_toAnsiString(ansi, value[i]);
 			var c0 = str[0];
@@ -641,7 +646,8 @@ function _Debug_toAnsiString(ansi, value)
 	if (typeof value === 'object')
 	{
 		var output = [];
-		for (var __keys_key = Object.keys(value), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
+		for (var key in value)
+		{
 			var field = key[0] === '_' ? key.slice(1) : key;
 			output.push(_Debug_fadeColor(ansi, field) + ' = ' + _Debug_toAnsiString(ansi, value[key]));
 		}
@@ -1450,7 +1456,8 @@ function _Json_runHelp(decoder, value)
 
 			var keyValuePairs = _List_Nil;
 			// TODO test perf of Object.keys and switch when support is good enough
-			for (var __keys_key = Object.keys(value), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
+			for (var key in value)
+			{
 				if (Object.prototype.hasOwnProperty.call(value, key))
 				{
 					var result = _Json_runHelp(decoder.b, value[key]);
@@ -1918,7 +1925,8 @@ function _Platform_setupEffects(managers, sendToApp)
 	var ports;
 
 	// setup all necessary effect managers
-	for (var __keys_key = Object.keys(_Platform_effectManagers), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
+	for (var key in _Platform_effectManagers)
+	{
 		var manager = _Platform_effectManagers[key];
 
 		if (manager.a)
@@ -2093,7 +2101,8 @@ function _Platform_dispatchEffects(managers, cmdBag, subBag)
 	_Platform_gatherEffects(true, cmdBag, effectsDict, null);
 	_Platform_gatherEffects(false, subBag, effectsDict, null);
 
-	for (var __keys_home = Object.keys(managers), __i_home = 0; __i_home < __keys_home.length; __i_home++) { var home = __keys_home[__i_home];
+	for (var home in managers)
+	{
 		_Scheduler_rawSend(managers[home], {
 			$: 'fx',
 			a: effectsDict[home] || { i: _List_Nil, j: _List_Nil }
@@ -2321,7 +2330,8 @@ function _Platform_export_UNUSED(exports)
 
 function _Platform_mergeExportsProd(obj, exports)
 {
-	for (var __keys_name = Object.keys(exports), __i_name = 0; __i_name < __keys_name.length; __i_name++) { var name = __keys_name[__i_name];
+	for (var name in exports)
+	{
 		(name in obj)
 			? (name == 'init')
 				? _Debug_crash(6)
@@ -2341,7 +2351,8 @@ function _Platform_export(exports)
 
 function _Platform_mergeExportsDebug(moduleName, obj, exports)
 {
-	for (var __keys_name = Object.keys(exports), __i_name = 0; __i_name < __keys_name.length; __i_name++) { var name = __keys_name[__i_name];
+	for (var name in exports)
+	{
 		(name in obj)
 			? (name == 'init')
 				? _Debug_crash(6, moduleName)
@@ -2835,7 +2846,8 @@ function _VirtualDom_render(vNode, eventNode)
 
 function _VirtualDom_applyFacts(domNode, eventNode, facts)
 {
-	for (var __keys_key = Object.keys(facts), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
+	for (var key in facts)
+	{
 		var value = facts[key];
 
 		key === 'a1'
@@ -2863,7 +2875,8 @@ function _VirtualDom_applyStyles(domNode, styles)
 {
 	var domNodeStyle = domNode.style;
 
-	for (var __keys_key = Object.keys(styles), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
+	for (var key in styles)
+	{
 		domNodeStyle[key] = styles[key];
 	}
 }
@@ -2875,7 +2888,8 @@ function _VirtualDom_applyStyles(domNode, styles)
 
 function _VirtualDom_applyAttrs(domNode, attrs)
 {
-	for (var __keys_key = Object.keys(attrs), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
+	for (var key in attrs)
+	{
 		var value = attrs[key];
 		typeof value !== 'undefined'
 			? domNode.setAttribute(key, value)
@@ -2890,7 +2904,8 @@ function _VirtualDom_applyAttrs(domNode, attrs)
 
 function _VirtualDom_applyAttrsNS(domNode, nsAttrs)
 {
-	for (var __keys_key = Object.keys(nsAttrs), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
+	for (var key in nsAttrs)
+	{
 		var pair = nsAttrs[key];
 		var namespace = pair.f;
 		var value = pair.o;
@@ -2910,7 +2925,8 @@ function _VirtualDom_applyEvents(domNode, eventNode, events)
 {
 	var allCallbacks = domNode.elmFs || (domNode.elmFs = {});
 
-	for (var __keys_key = Object.keys(events), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
+	for (var key in events)
+	{
 		var newHandler = events[key];
 		var oldCallback = allCallbacks[key];
 
@@ -3226,7 +3242,8 @@ function _VirtualDom_diffFacts(x, y, category)
 	var diff;
 
 	// look for changes and removals
-	for (var __keys_xKey = Object.keys(x), __i_xKey = 0; __i_xKey < __keys_xKey.length; __i_xKey++) { var xKey = __keys_xKey[__i_xKey];
+	for (var xKey in x)
+	{
 		if (xKey === 'a1' || xKey === 'a0' || xKey === 'a3' || xKey === 'a4')
 		{
 			var subDiff = _VirtualDom_diffFacts(x[xKey], y[xKey] || {}, xKey);
@@ -3272,7 +3289,8 @@ function _VirtualDom_diffFacts(x, y, category)
 	}
 
 	// add new stuff
-	for (var __keys_yKey = Object.keys(y), __i_yKey = 0; __i_yKey < __keys_yKey.length; __i_yKey++) { var yKey = __keys_yKey[__i_yKey];
+	for (var yKey in y)
+	{
 		if (!(yKey in x))
 		{
 			diff = diff || {};
@@ -5197,6 +5215,7 @@ var $elm$core$Task$attempt = F2(
 	});
 var $elm$browser$Browser$Dom$focus = _Browser_call('focus');
 var $elm$core$Debug$log = _Debug_log;
+var $elm$browser$Browser$Navigation$reloadAndSkipCache = _Browser_reload(true);
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $author$project$Main$selectAll = _Platform_outgoingPort('selectAll', $elm$json$Json$Encode$string);
 var $elm$core$String$toFloat = _String_toFloat;
@@ -5267,9 +5286,11 @@ var $author$project$Main$update = F2(
 			case 'OnUrlChange':
 				var url = msg.a;
 				return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(model);
-			default:
+			case 'OnUrlRequest':
 				var url = msg.a;
 				return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(model);
+			default:
+				return A2($Janiczek$cmd_extra$Cmd$Extra$withCmd, $elm$browser$Browser$Navigation$reloadAndSkipCache, model);
 		}
 	});
 var $elm$json$Json$Decode$value = _Json_decodeValue;
@@ -5282,6 +5303,8 @@ var $author$project$Main$InputDollarsPerOz = function (a) {
 var $author$project$Main$InputPrice = function (a) {
 	return {$: 'InputPrice', a: a};
 };
+var $author$project$Main$ReloadFromServer = {$: 'ReloadFromServer'};
+var $elm$html$Html$a = _VirtualDom_node('a');
 var $author$project$Main$addPointZero = function (string) {
 	return A2($elm$core$String$contains, '.', string) ? string : (string + '.0');
 };
@@ -5338,6 +5361,12 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			key,
 			$elm$json$Json$Encode$string(string));
 	});
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$html$Html$iframe = _VirtualDom_node('iframe');
 var $elm$html$Html$img = _VirtualDom_node('img');
@@ -5353,6 +5382,12 @@ var $elm$html$Html$Events$on = F2(
 			event,
 			$elm$virtual_dom$VirtualDom$Normal(decoder));
 	});
+var $elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
 var $elm$html$Html$Events$onFocus = function (msg) {
 	return A2(
 		$elm$html$Html$Events$on,
@@ -5392,6 +5427,7 @@ var $elm$html$Html$Events$onInput = function (tagger) {
 			$elm$html$Html$Events$alwaysStop,
 			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
 };
+var $elm$html$Html$p = _VirtualDom_node('p');
 var $author$project$Main$pINPUT_SIZE = 10;
 var $elm$html$Html$Attributes$size = function (n) {
 	return A2(
@@ -5586,7 +5622,7 @@ var $author$project$Main$view = function (model) {
 											_List_fromArray(
 												[
 													$elm$html$Html$text($author$project$Main$chars.nbsp),
-													$elm$html$Html$text('$ / ($/oz) / (0.7734 * 10 dimes/oz)')
+													$elm$html$Html$text('0.7734 * 10 dimes/oz')
 												]))
 										]))
 								]));
@@ -5600,7 +5636,43 @@ var $author$project$Main$view = function (model) {
 								$elm$html$Html$Attributes$width(400),
 								$elm$html$Html$Attributes$height(400)
 							]),
-						_List_Nil)
+						_List_Nil),
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$a,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$href('#'),
+										$elm$html$Html$Events$onClick($author$project$Main$ReloadFromServer)
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('Reload from Server')
+									]))
+							])),
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text($author$project$Main$chars.copyright),
+								$elm$html$Html$text('Copyright 2026, Bill St. Clair'),
+								$author$project$Main$br,
+								A2(
+								$elm$html$Html$a,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$href('https://github.com/billstclair/priceindimes')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('GitHub')
+									]))
+							]))
 					]))
 			]),
 		title: 'PriceInDimes'
