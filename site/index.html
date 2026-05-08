@@ -51,7 +51,7 @@
             var selectAll = app && app.ports && app.ports.selectAll;
             if (selectAll) {
               selectAll.subscribe(function(id) {
-                let element = document.getElemetById(id);
+                let element = document.getElementById(id);
                 if (element) {
                   element.select();
                 }

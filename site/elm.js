@@ -134,8 +134,7 @@ function _Utils_eqHelp(x, y, depth, stack)
 	}
 	//*/
 
-	for (var key in x)
-	{
+	for (var __keys_key = Object.keys(x), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		if (!_Utils_eqHelp(x[key], y[key], depth + 1, stack))
 		{
 			return false;
@@ -222,13 +221,11 @@ function _Utils_update(oldRecord, updatedFields)
 {
 	var newRecord = {};
 
-	for (var key in oldRecord)
-	{
+	for (var __keys_key = Object.keys(oldRecord), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		newRecord[key] = oldRecord[key];
 	}
 
-	for (var key in updatedFields)
-	{
+	for (var __keys_key = Object.keys(updatedFields), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		newRecord[key] = updatedFields[key];
 	}
 
@@ -579,8 +576,7 @@ function _Debug_toAnsiString(ansi, value)
 		if (tag[0] === '#')
 		{
 			var output = [];
-			for (var k in value)
-			{
+			for (var __keys_k = Object.keys(value), __i_k = 0; __i_k < __keys_k.length; __i_k++) { var k = __keys_k[__i_k];
 				if (k === '$') continue;
 				output.push(_Debug_toAnsiString(ansi, value[k]));
 			}
@@ -622,8 +618,7 @@ function _Debug_toAnsiString(ansi, value)
 		}
 
 		var output = '';
-		for (var i in value)
-		{
+		for (var __keys_i = Object.keys(value), __i_i = 0; __i_i < __keys_i.length; __i_i++) { var i = __keys_i[__i_i];
 			if (i === '$') continue;
 			var str = _Debug_toAnsiString(ansi, value[i]);
 			var c0 = str[0];
@@ -646,8 +641,7 @@ function _Debug_toAnsiString(ansi, value)
 	if (typeof value === 'object')
 	{
 		var output = [];
-		for (var key in value)
-		{
+		for (var __keys_key = Object.keys(value), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 			var field = key[0] === '_' ? key.slice(1) : key;
 			output.push(_Debug_fadeColor(ansi, field) + ' = ' + _Debug_toAnsiString(ansi, value[key]));
 		}
@@ -1456,8 +1450,7 @@ function _Json_runHelp(decoder, value)
 
 			var keyValuePairs = _List_Nil;
 			// TODO test perf of Object.keys and switch when support is good enough
-			for (var key in value)
-			{
+			for (var __keys_key = Object.keys(value), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 				if (Object.prototype.hasOwnProperty.call(value, key))
 				{
 					var result = _Json_runHelp(decoder.b, value[key]);
@@ -1925,8 +1918,7 @@ function _Platform_setupEffects(managers, sendToApp)
 	var ports;
 
 	// setup all necessary effect managers
-	for (var key in _Platform_effectManagers)
-	{
+	for (var __keys_key = Object.keys(_Platform_effectManagers), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var manager = _Platform_effectManagers[key];
 
 		if (manager.a)
@@ -2101,8 +2093,7 @@ function _Platform_dispatchEffects(managers, cmdBag, subBag)
 	_Platform_gatherEffects(true, cmdBag, effectsDict, null);
 	_Platform_gatherEffects(false, subBag, effectsDict, null);
 
-	for (var home in managers)
-	{
+	for (var __keys_home = Object.keys(managers), __i_home = 0; __i_home < __keys_home.length; __i_home++) { var home = __keys_home[__i_home];
 		_Scheduler_rawSend(managers[home], {
 			$: 'fx',
 			a: effectsDict[home] || { i: _List_Nil, j: _List_Nil }
@@ -2330,8 +2321,7 @@ function _Platform_export_UNUSED(exports)
 
 function _Platform_mergeExportsProd(obj, exports)
 {
-	for (var name in exports)
-	{
+	for (var __keys_name = Object.keys(exports), __i_name = 0; __i_name < __keys_name.length; __i_name++) { var name = __keys_name[__i_name];
 		(name in obj)
 			? (name == 'init')
 				? _Debug_crash(6)
@@ -2351,8 +2341,7 @@ function _Platform_export(exports)
 
 function _Platform_mergeExportsDebug(moduleName, obj, exports)
 {
-	for (var name in exports)
-	{
+	for (var __keys_name = Object.keys(exports), __i_name = 0; __i_name < __keys_name.length; __i_name++) { var name = __keys_name[__i_name];
 		(name in obj)
 			? (name == 'init')
 				? _Debug_crash(6, moduleName)
@@ -2846,8 +2835,7 @@ function _VirtualDom_render(vNode, eventNode)
 
 function _VirtualDom_applyFacts(domNode, eventNode, facts)
 {
-	for (var key in facts)
-	{
+	for (var __keys_key = Object.keys(facts), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var value = facts[key];
 
 		key === 'a1'
@@ -2875,8 +2863,7 @@ function _VirtualDom_applyStyles(domNode, styles)
 {
 	var domNodeStyle = domNode.style;
 
-	for (var key in styles)
-	{
+	for (var __keys_key = Object.keys(styles), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		domNodeStyle[key] = styles[key];
 	}
 }
@@ -2888,8 +2875,7 @@ function _VirtualDom_applyStyles(domNode, styles)
 
 function _VirtualDom_applyAttrs(domNode, attrs)
 {
-	for (var key in attrs)
-	{
+	for (var __keys_key = Object.keys(attrs), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var value = attrs[key];
 		typeof value !== 'undefined'
 			? domNode.setAttribute(key, value)
@@ -2904,8 +2890,7 @@ function _VirtualDom_applyAttrs(domNode, attrs)
 
 function _VirtualDom_applyAttrsNS(domNode, nsAttrs)
 {
-	for (var key in nsAttrs)
-	{
+	for (var __keys_key = Object.keys(nsAttrs), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var pair = nsAttrs[key];
 		var namespace = pair.f;
 		var value = pair.o;
@@ -2925,8 +2910,7 @@ function _VirtualDom_applyEvents(domNode, eventNode, events)
 {
 	var allCallbacks = domNode.elmFs || (domNode.elmFs = {});
 
-	for (var key in events)
-	{
+	for (var __keys_key = Object.keys(events), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var newHandler = events[key];
 		var oldCallback = allCallbacks[key];
 
@@ -3242,8 +3226,7 @@ function _VirtualDom_diffFacts(x, y, category)
 	var diff;
 
 	// look for changes and removals
-	for (var xKey in x)
-	{
+	for (var __keys_xKey = Object.keys(x), __i_xKey = 0; __i_xKey < __keys_xKey.length; __i_xKey++) { var xKey = __keys_xKey[__i_xKey];
 		if (xKey === 'a1' || xKey === 'a0' || xKey === 'a3' || xKey === 'a4')
 		{
 			var subDiff = _VirtualDom_diffFacts(x[xKey], y[xKey] || {}, xKey);
@@ -3289,8 +3272,7 @@ function _VirtualDom_diffFacts(x, y, category)
 	}
 
 	// add new stuff
-	for (var yKey in y)
-	{
+	for (var __keys_yKey = Object.keys(y), __i_yKey = 0; __i_yKey < __keys_yKey.length; __i_yKey++) { var yKey = __keys_yKey[__i_yKey];
 		if (!(yKey in x))
 		{
 			diff = diff || {};
@@ -5185,35 +5167,6 @@ var $author$project$Main$init = F3(
 	});
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
-var $author$project$Main$AfterFocus = F2(
-	function (a, b) {
-		return {$: 'AfterFocus', a: a, b: b};
-	});
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
-	});
-var $elm$core$Task$onError = _Scheduler_onError;
-var $elm$core$Task$attempt = F2(
-	function (resultToMessage, task) {
-		return $elm$core$Task$command(
-			$elm$core$Task$Perform(
-				A2(
-					$elm$core$Task$onError,
-					A2(
-						$elm$core$Basics$composeL,
-						A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
-						$elm$core$Result$Err),
-					A2(
-						$elm$core$Task$andThen,
-						A2(
-							$elm$core$Basics$composeL,
-							A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
-							$elm$core$Result$Ok),
-						task))));
-	});
-var $elm$browser$Browser$Dom$focus = _Browser_call('focus');
 var $elm$core$Debug$log = _Debug_log;
 var $elm$browser$Browser$Navigation$reloadAndSkipCache = _Browser_reload(true);
 var $elm$json$Json$Encode$string = _Json_wrap;
@@ -5228,27 +5181,13 @@ var $author$project$Main$update = F2(
 		switch (msg.$) {
 			case 'Nop':
 				return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(model);
-			case 'DoFocus':
+			case 'AfterFocus':
 				var id = msg.a;
 				return A2(
 					$Janiczek$cmd_extra$Cmd$Extra$withCmd,
-					A2(
-						$elm$core$Task$attempt,
-						$author$project$Main$AfterFocus(id),
-						$elm$browser$Browser$Dom$focus(id)),
+					$author$project$Main$selectAll(
+						A2($elm$core$Debug$log, 'SelectAll', id)),
 					model);
-			case 'AfterFocus':
-				var id = msg.a;
-				var result = msg.b;
-				if (result.$ === 'Err') {
-					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(model);
-				} else {
-					return A2(
-						$Janiczek$cmd_extra$Cmd$Extra$withCmd,
-						$author$project$Main$selectAll(
-							A2($elm$core$Debug$log, 'SelectAll', id)),
-						model);
-				}
 			case 'InputPrice':
 				var string = msg.a;
 				var m = _Utils_update(
@@ -5256,9 +5195,9 @@ var $author$project$Main$update = F2(
 					{
 						priceInput: A2($elm$core$Debug$log, 'InputPrice', string)
 					});
-				var _v2 = $elm$core$String$toFloat(string);
-				if (_v2.$ === 'Just') {
-					var price = _v2.a;
+				var _v1 = $elm$core$String$toFloat(string);
+				if (_v1.$ === 'Just') {
+					var price = _v1.a;
 					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(
 						_Utils_update(
 							m,
@@ -5273,9 +5212,9 @@ var $author$project$Main$update = F2(
 					{
 						dollarsPerOzInput: A2($elm$core$Debug$log, 'InputDollarsPerOz', string)
 					});
-				var _v3 = $elm$core$String$toFloat(string);
-				if (_v3.$ === 'Just') {
-					var dollarsPerOz = _v3.a;
+				var _v2 = $elm$core$String$toFloat(string);
+				if (_v2.$ === 'Just') {
+					var dollarsPerOz = _v2.a;
 					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(
 						_Utils_update(
 							m,
@@ -5294,8 +5233,8 @@ var $author$project$Main$update = F2(
 		}
 	});
 var $elm$json$Json$Decode$value = _Json_decodeValue;
-var $author$project$Main$DoFocus = function (a) {
-	return {$: 'DoFocus', a: a};
+var $author$project$Main$AfterFocus = function (a) {
+	return {$: 'AfterFocus', a: a};
 };
 var $author$project$Main$InputDollarsPerOz = function (a) {
 	return {$: 'InputDollarsPerOz', a: a};
@@ -5519,9 +5458,9 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$Attributes$type_('text'),
 															$elm$html$Html$Attributes$size($author$project$Main$pINPUT_SIZE),
 															A2($elm$html$Html$Attributes$style, 'text-align', 'right'),
-															$elm$html$Html$Attributes$id('Price'),
+															$elm$html$Html$Attributes$id('price'),
 															$elm$html$Html$Events$onFocus(
-															$author$project$Main$DoFocus('price')),
+															$author$project$Main$AfterFocus('price')),
 															$elm$html$Html$Events$onInput($author$project$Main$InputPrice),
 															$elm$html$Html$Attributes$value(model.priceInput)
 														]),
@@ -5568,8 +5507,8 @@ var $author$project$Main$view = function (model) {
 															A2($elm$html$Html$Attributes$style, 'text-align', 'right'),
 															$elm$html$Html$Events$onInput($author$project$Main$InputDollarsPerOz),
 															$elm$html$Html$Events$onFocus(
-															$author$project$Main$DoFocus('dollarsPerOz')),
-															$elm$html$Html$Attributes$id('DollarsPerOzInput'),
+															$author$project$Main$AfterFocus('dollarsPerOz')),
+															$elm$html$Html$Attributes$id('dollarsPerOz'),
 															$elm$html$Html$Attributes$value(model.dollarsPerOzInput)
 														]),
 													_List_Nil)

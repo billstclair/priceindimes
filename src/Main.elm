@@ -52,11 +52,10 @@ type alias Model =
 
 type Msg
     = Nop
-    | AfterFocus String (Result Dom.Error ())
+    | AfterFocus String
     | OnUrlRequest UrlRequest
     | OnUrlChange Url
     | ReloadFromServer
-    | DoFocus String
     | InputPrice String
     | InputDollarsPerOz String
 
@@ -125,8 +124,8 @@ view model =
                             [ type_ "text"
                             , size pINPUT_SIZE
                             , style "text-align" "right"
-                            , id "Price"
-                            , onFocus (DoFocus "price")
+                            , id "price"
+                            , onFocus (AfterFocus "price")
                             , onInput InputPrice
                             , value model.priceInput
                             ]
@@ -145,8 +144,8 @@ view model =
                             , size pINPUT_SIZE
                             , style "text-align" "right"
                             , onInput InputDollarsPerOz
-                            , onFocus (DoFocus "dollarsPerOz")
-                            , id "DollarsPerOzInput"
+                            , onFocus (AfterFocus "dollarsPerOz")
+                            , id "dollarsPerOz"
                             , value model.dollarsPerOzInput
                             ]
                             []
@@ -224,16 +223,8 @@ update msg model =
         Nop ->
             model |> withNoCmd
 
-        DoFocus id ->
-            model |> withCmd (Task.attempt (AfterFocus id) <| Dom.focus id)
-
-        AfterFocus id result ->
-            case result of
-                Err _ ->
-                    model |> withNoCmd
-
-                Ok () ->
-                    model |> withCmd (selectAll <| Debug.log "SelectAll" id)
+        AfterFocus id ->
+            model |> withCmd (selectAll <| Debug.log "SelectAll" id)
 
         InputPrice string ->
             let
