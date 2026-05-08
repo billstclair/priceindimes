@@ -29,6 +29,9 @@ import Url exposing (Url)
 port selectAll : String -> Cmd msg
 
 
+port openWindow : Value -> Cmd msg
+
+
 main =
     Browser.application
         { init = init
@@ -255,8 +258,13 @@ update msg model =
         OnUrlChange url ->
             model |> withNoCmd
 
-        OnUrlRequest url ->
-            model |> withNoCmd
+        OnUrlRequest urlRequest ->
+            case urlRequest of
+                External url ->
+                    model |> withCmd (openWindow <| JE.string url)
+
+                Internal url ->
+                    model |> withNoCmd
 
         ReloadFromServer ->
             model |> withCmd Navigation.reloadAndSkipCache

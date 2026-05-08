@@ -57,6 +57,12 @@
                 }
               });
             }
+            var openWindow = app && app.ports && app.ports.openWindow;
+            if (openWindow) {
+              openWindow.subscribe(function(url) {
+                window.open(url, '_blank');
+              });
+            }
           }
         }
       }
