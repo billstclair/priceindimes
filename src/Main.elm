@@ -92,7 +92,7 @@ br =
 
 
 pINPUT_SIZE =
-    10
+    5
 
 
 view : Model -> Document Msg
@@ -174,7 +174,11 @@ view model =
                         ]
                     ]
                 ]
-            , br
+            , p []
+                [ text "Scroll down the iframe below to see the current silver price (from Kitco)."
+                , br
+                , text "Copy that to the \"Dollars/oz\" input."
+                ]
             , iframe
                 [ src "https://www.kitco.com/price/precious-metals"
                 , width 400
