@@ -23,6 +23,7 @@ import Html.Attributes exposing (align, checked, disabled, height, href, id, nam
 import Html.Events exposing (onClick, onFocus, onInput)
 import Json.Encode as JE exposing (Value)
 import Task exposing (Task)
+import Time exposing (Posix)
 import Url exposing (Url)
 
 
@@ -48,6 +49,8 @@ type alias Model =
     , priceInput : String
     , dollarsPerOz : Float
     , dollarsPerOzInput : String
+    , valid : Bool
+    , validTime : Int
     , url : Url
     , key : Key
     }
@@ -61,6 +64,7 @@ type Msg
     | ReloadFromServer
     | InputPrice String
     | InputDollarsPerOz String
+    | SetValidTime Posix
 
 
 init : Value -> Url -> Key -> ( Model, Cmd Msg )
@@ -69,10 +73,12 @@ init flags url key =
     , priceInput = "1.0"
     , dollarsPerOz = 76.83
     , dollarsPerOzInput = "76.83"
+    , valid = False
+    , validTime = 0
     , url = url
     , key = key
     }
-        |> withNoCmd
+        |> withCmd (Task.perform SetValidTime Time.now)
 
 
 h1 : String -> Html msg
@@ -253,11 +259,18 @@ update msg model =
             in
             case String.toFloat string of
                 Just dollarsPerOz ->
-                    { m | dollarsPerOz = dollarsPerOz }
-                        |> withNoCmd
+                    { m
+                        | dollarsPerOz = dollarsPerOz
+                        , valid = True
+                    }
+                        |> withCmd (Task.perform SetValidTime Time.now)
 
                 Nothing ->
                     m |> withNoCmd
+
+        SetValidTime posix ->
+            { model | validTime = Time.posixToMillis posix }
+                |> withNoCmd
 
         OnUrlChange url ->
             model |> withNoCmd

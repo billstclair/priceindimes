@@ -134,8 +134,7 @@ function _Utils_eqHelp(x, y, depth, stack)
 	}
 	//*/
 
-	for (var key in x)
-	{
+	for (var __keys_key = Object.keys(x), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		if (!_Utils_eqHelp(x[key], y[key], depth + 1, stack))
 		{
 			return false;
@@ -222,13 +221,11 @@ function _Utils_update(oldRecord, updatedFields)
 {
 	var newRecord = {};
 
-	for (var key in oldRecord)
-	{
+	for (var __keys_key = Object.keys(oldRecord), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		newRecord[key] = oldRecord[key];
 	}
 
-	for (var key in updatedFields)
-	{
+	for (var __keys_key = Object.keys(updatedFields), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		newRecord[key] = updatedFields[key];
 	}
 
@@ -579,8 +576,7 @@ function _Debug_toAnsiString(ansi, value)
 		if (tag[0] === '#')
 		{
 			var output = [];
-			for (var k in value)
-			{
+			for (var __keys_k = Object.keys(value), __i_k = 0; __i_k < __keys_k.length; __i_k++) { var k = __keys_k[__i_k];
 				if (k === '$') continue;
 				output.push(_Debug_toAnsiString(ansi, value[k]));
 			}
@@ -622,8 +618,7 @@ function _Debug_toAnsiString(ansi, value)
 		}
 
 		var output = '';
-		for (var i in value)
-		{
+		for (var __keys_i = Object.keys(value), __i_i = 0; __i_i < __keys_i.length; __i_i++) { var i = __keys_i[__i_i];
 			if (i === '$') continue;
 			var str = _Debug_toAnsiString(ansi, value[i]);
 			var c0 = str[0];
@@ -646,8 +641,7 @@ function _Debug_toAnsiString(ansi, value)
 	if (typeof value === 'object')
 	{
 		var output = [];
-		for (var key in value)
-		{
+		for (var __keys_key = Object.keys(value), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 			var field = key[0] === '_' ? key.slice(1) : key;
 			output.push(_Debug_fadeColor(ansi, field) + ' = ' + _Debug_toAnsiString(ansi, value[key]));
 		}
@@ -1456,8 +1450,7 @@ function _Json_runHelp(decoder, value)
 
 			var keyValuePairs = _List_Nil;
 			// TODO test perf of Object.keys and switch when support is good enough
-			for (var key in value)
-			{
+			for (var __keys_key = Object.keys(value), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 				if (Object.prototype.hasOwnProperty.call(value, key))
 				{
 					var result = _Json_runHelp(decoder.b, value[key]);
@@ -1925,8 +1918,7 @@ function _Platform_setupEffects(managers, sendToApp)
 	var ports;
 
 	// setup all necessary effect managers
-	for (var key in _Platform_effectManagers)
-	{
+	for (var __keys_key = Object.keys(_Platform_effectManagers), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var manager = _Platform_effectManagers[key];
 
 		if (manager.a)
@@ -2101,8 +2093,7 @@ function _Platform_dispatchEffects(managers, cmdBag, subBag)
 	_Platform_gatherEffects(true, cmdBag, effectsDict, null);
 	_Platform_gatherEffects(false, subBag, effectsDict, null);
 
-	for (var home in managers)
-	{
+	for (var __keys_home = Object.keys(managers), __i_home = 0; __i_home < __keys_home.length; __i_home++) { var home = __keys_home[__i_home];
 		_Scheduler_rawSend(managers[home], {
 			$: 'fx',
 			a: effectsDict[home] || { i: _List_Nil, j: _List_Nil }
@@ -2330,8 +2321,7 @@ function _Platform_export_UNUSED(exports)
 
 function _Platform_mergeExportsProd(obj, exports)
 {
-	for (var name in exports)
-	{
+	for (var __keys_name = Object.keys(exports), __i_name = 0; __i_name < __keys_name.length; __i_name++) { var name = __keys_name[__i_name];
 		(name in obj)
 			? (name == 'init')
 				? _Debug_crash(6)
@@ -2351,8 +2341,7 @@ function _Platform_export(exports)
 
 function _Platform_mergeExportsDebug(moduleName, obj, exports)
 {
-	for (var name in exports)
-	{
+	for (var __keys_name = Object.keys(exports), __i_name = 0; __i_name < __keys_name.length; __i_name++) { var name = __keys_name[__i_name];
 		(name in obj)
 			? (name == 'init')
 				? _Debug_crash(6, moduleName)
@@ -2846,8 +2835,7 @@ function _VirtualDom_render(vNode, eventNode)
 
 function _VirtualDom_applyFacts(domNode, eventNode, facts)
 {
-	for (var key in facts)
-	{
+	for (var __keys_key = Object.keys(facts), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var value = facts[key];
 
 		key === 'a1'
@@ -2875,8 +2863,7 @@ function _VirtualDom_applyStyles(domNode, styles)
 {
 	var domNodeStyle = domNode.style;
 
-	for (var key in styles)
-	{
+	for (var __keys_key = Object.keys(styles), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		domNodeStyle[key] = styles[key];
 	}
 }
@@ -2888,8 +2875,7 @@ function _VirtualDom_applyStyles(domNode, styles)
 
 function _VirtualDom_applyAttrs(domNode, attrs)
 {
-	for (var key in attrs)
-	{
+	for (var __keys_key = Object.keys(attrs), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var value = attrs[key];
 		typeof value !== 'undefined'
 			? domNode.setAttribute(key, value)
@@ -2904,8 +2890,7 @@ function _VirtualDom_applyAttrs(domNode, attrs)
 
 function _VirtualDom_applyAttrsNS(domNode, nsAttrs)
 {
-	for (var key in nsAttrs)
-	{
+	for (var __keys_key = Object.keys(nsAttrs), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var pair = nsAttrs[key];
 		var namespace = pair.f;
 		var value = pair.o;
@@ -2925,8 +2910,7 @@ function _VirtualDom_applyEvents(domNode, eventNode, events)
 {
 	var allCallbacks = domNode.elmFs || (domNode.elmFs = {});
 
-	for (var key in events)
-	{
+	for (var __keys_key = Object.keys(events), __i_key = 0; __i_key < __keys_key.length; __i_key++) { var key = __keys_key[__i_key];
 		var newHandler = events[key];
 		var oldCallback = allCallbacks[key];
 
@@ -3242,8 +3226,7 @@ function _VirtualDom_diffFacts(x, y, category)
 	var diff;
 
 	// look for changes and removals
-	for (var xKey in x)
-	{
+	for (var __keys_xKey = Object.keys(x), __i_xKey = 0; __i_xKey < __keys_xKey.length; __i_xKey++) { var xKey = __keys_xKey[__i_xKey];
 		if (xKey === 'a1' || xKey === 'a0' || xKey === 'a3' || xKey === 'a4')
 		{
 			var subDiff = _VirtualDom_diffFacts(x[xKey], y[xKey] || {}, xKey);
@@ -3289,8 +3272,7 @@ function _VirtualDom_diffFacts(x, y, category)
 	}
 
 	// add new stuff
-	for (var yKey in y)
-	{
+	for (var __keys_yKey = Object.keys(y), __i_yKey = 0; __i_yKey < __keys_yKey.length; __i_yKey++) { var yKey = __keys_yKey[__i_yKey];
 		if (!(yKey in x))
 		{
 			diff = diff || {};
@@ -4378,6 +4360,52 @@ function _Browser_load(url)
 		}
 	}));
 }
+
+
+
+function _Time_now(millisToPosix)
+{
+	return _Scheduler_binding(function(callback)
+	{
+		callback(_Scheduler_succeed(millisToPosix(Date.now())));
+	});
+}
+
+var _Time_setInterval = F2(function(interval, task)
+{
+	return _Scheduler_binding(function(callback)
+	{
+		var id = setInterval(function() { _Scheduler_rawSpawn(task); }, interval);
+		return function() { clearInterval(id); };
+	});
+});
+
+function _Time_here()
+{
+	return _Scheduler_binding(function(callback)
+	{
+		callback(_Scheduler_succeed(
+			A2($elm$time$Time$customZone, -(new Date().getTimezoneOffset()), _List_Nil)
+		));
+	});
+}
+
+
+function _Time_getZoneName()
+{
+	return _Scheduler_binding(function(callback)
+	{
+		try
+		{
+			var name = $elm$time$Time$Name(Intl.DateTimeFormat().resolvedOptions().timeZone);
+		}
+		catch (e)
+		{
+			var name = $elm$time$Time$Offset(new Date().getTimezoneOffset());
+		}
+		callback(_Scheduler_succeed(name));
+	});
+}
 var $author$project$Main$OnUrlChange = function (a) {
 	return {$: 'OnUrlChange', a: a};
 };
@@ -5173,28 +5201,53 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$application = _Browser_application;
-var $elm$core$Platform$Cmd$batch = _Platform_batch;
-var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $Janiczek$cmd_extra$Cmd$Extra$withNoCmd = function (model) {
-	return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+var $author$project$Main$SetValidTime = function (a) {
+	return {$: 'SetValidTime', a: a};
 };
+var $elm$time$Time$Name = function (a) {
+	return {$: 'Name', a: a};
+};
+var $elm$time$Time$Offset = function (a) {
+	return {$: 'Offset', a: a};
+};
+var $elm$time$Time$Zone = F2(
+	function (a, b) {
+		return {$: 'Zone', a: a, b: b};
+	});
+var $elm$time$Time$customZone = $elm$time$Time$Zone;
+var $elm$time$Time$Posix = function (a) {
+	return {$: 'Posix', a: a};
+};
+var $elm$time$Time$millisToPosix = $elm$time$Time$Posix;
+var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
+var $Janiczek$cmd_extra$Cmd$Extra$withCmd = F2(
+	function (cmd, model) {
+		return _Utils_Tuple2(model, cmd);
+	});
 var $author$project$Main$init = F3(
 	function (flags, url, key) {
-		return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(
-			{dollarsPerOz: 76.83, dollarsPerOzInput: '76.83', key: key, price: 1.0, priceInput: '1.0', url: url});
+		return A2(
+			$Janiczek$cmd_extra$Cmd$Extra$withCmd,
+			A2($elm$core$Task$perform, $author$project$Main$SetValidTime, $elm$time$Time$now),
+			{dollarsPerOz: 76.83, dollarsPerOzInput: '76.83', key: key, price: 1.0, priceInput: '1.0', url: url, valid: false, validTime: 0});
 	});
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $elm$core$Debug$log = _Debug_log;
 var $author$project$Main$openWindow = _Platform_outgoingPort('openWindow', $elm$core$Basics$identity);
+var $elm$time$Time$posixToMillis = function (_v0) {
+	var millis = _v0.a;
+	return millis;
+};
 var $elm$browser$Browser$Navigation$reloadAndSkipCache = _Browser_reload(true);
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $author$project$Main$selectAll = _Platform_outgoingPort('selectAll', $elm$json$Json$Encode$string);
 var $elm$core$String$toFloat = _String_toFloat;
-var $Janiczek$cmd_extra$Cmd$Extra$withCmd = F2(
-	function (cmd, model) {
-		return _Utils_Tuple2(model, cmd);
-	});
+var $elm$core$Platform$Cmd$batch = _Platform_batch;
+var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $Janiczek$cmd_extra$Cmd$Extra$withNoCmd = function (model) {
+	return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+};
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -5234,13 +5287,23 @@ var $author$project$Main$update = F2(
 				var _v2 = $elm$core$String$toFloat(string);
 				if (_v2.$ === 'Just') {
 					var dollarsPerOz = _v2.a;
-					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(
+					return A2(
+						$Janiczek$cmd_extra$Cmd$Extra$withCmd,
+						A2($elm$core$Task$perform, $author$project$Main$SetValidTime, $elm$time$Time$now),
 						_Utils_update(
 							m,
-							{dollarsPerOz: dollarsPerOz}));
+							{dollarsPerOz: dollarsPerOz, valid: true}));
 				} else {
 					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(m);
 				}
+			case 'SetValidTime':
+				var posix = msg.a;
+				return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(
+					_Utils_update(
+						model,
+						{
+							validTime: $elm$time$Time$posixToMillis(posix)
+						}));
 			case 'OnUrlChange':
 				var url = msg.a;
 				return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(model);
