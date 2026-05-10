@@ -5675,39 +5675,29 @@ var $author$project$Main$update = F2(
 					model);
 			case 'InputPrice':
 				var string = msg.a;
-				var m = _Utils_update(
-					model,
-					{
-						priceInput: A2($elm$core$Debug$log, 'InputPrice', string)
-					});
 				var _v1 = $elm$core$String$toFloat(string);
-				if (_v1.$ === 'Just') {
+				if (_v1.$ === 'Nothing') {
+					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(model);
+				} else {
 					var price = _v1.a;
 					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(
 						_Utils_update(
-							m,
-							{price: price}));
-				} else {
-					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(m);
+							model,
+							{price: price, priceInput: string}));
 				}
 			case 'InputDollarsPerOz':
 				var string = msg.a;
-				var m = _Utils_update(
-					model,
-					{
-						dollarsPerOzInput: A2($elm$core$Debug$log, 'InputDollarsPerOz', string)
-					});
 				var _v2 = $elm$core$String$toFloat(string);
-				if (_v2.$ === 'Just') {
+				if (_v2.$ === 'Nothing') {
+					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(model);
+				} else {
 					var dollarsPerOz = _v2.a;
 					return A2(
 						$Janiczek$cmd_extra$Cmd$Extra$withCmd,
 						A2($elm$core$Task$perform, $author$project$Main$SetValidTime, $elm$time$Time$now),
 						_Utils_update(
-							m,
-							{dollarsPerOz: dollarsPerOz, valid: true}));
-				} else {
-					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(m);
+							model,
+							{dollarsPerOz: dollarsPerOz, dollarsPerOzInput: string, valid: true}));
 				}
 			case 'SetValidTime':
 				var posix = msg.a;
@@ -5899,7 +5889,6 @@ var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $elm$html$Html$table = _VirtualDom_node('table');
 var $elm$html$Html$td = _VirtualDom_node('td');
-var $elm$html$Html$th = _VirtualDom_node('th');
 var $elm$html$Html$tr = _VirtualDom_node('tr');
 var $elm$core$Basics$truncate = _Basics_truncate;
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
@@ -5952,7 +5941,7 @@ var $author$project$Main$view = function (model) {
 									_List_fromArray(
 										[
 											A2(
-											$elm$html$Html$th,
+											$elm$html$Html$td,
 											_List_Nil,
 											_List_fromArray(
 												[
@@ -5999,7 +5988,7 @@ var $author$project$Main$view = function (model) {
 									_List_fromArray(
 										[
 											A2(
-											$elm$html$Html$th,
+											$elm$html$Html$td,
 											(!model.valid) ? _List_fromArray(
 												[
 													A2($elm$html$Html$Attributes$style, 'color', 'red')
@@ -6040,31 +6029,60 @@ var $author$project$Main$view = function (model) {
 											_List_fromArray(
 												[
 													$elm$html$Html$text($author$project$Main$chars.nbsp),
-													$elm$html$Html$text('$/oz, '),
-													$author$project$Main$b('Last set: '),
-													function () {
-													var sinceLastSet = $elm$time$Time$posixToMillis(model.now) - $elm$time$Time$posixToMillis(model.validTime);
-													var minutes = (sinceLastSet / (1000 * 60)) | 0;
-													return (minutes >= 5) ? $elm$html$Html$text('> 5 minutes ago') : A2(
+													$elm$html$Html$text('$/oz')
+												]))
+										])),
+									function () {
+									var sinceLastSet = $elm$time$Time$posixToMillis(model.now) - $elm$time$Time$posixToMillis(model.validTime);
+									var minutes = (sinceLastSet / (1000 * 60)) | 0;
+									return A2(
+										$elm$html$Html$tr,
+										_List_Nil,
+										_List_fromArray(
+											[
+												A2(
+												$elm$html$Html$td,
+												_List_Nil,
+												_List_fromArray(
+													[
+														$author$project$Main$b('Last set: ')
+													])),
+												A2(
+												$elm$html$Html$td,
+												_List_fromArray(
+													[
+														A2($elm$html$Html$Attributes$style, 'text-align', 'right')
+													]),
+												_List_fromArray(
+													[
+														(minutes >= 5) ? $elm$html$Html$text('> 5') : A2(
 														$elm$html$Html$span,
 														_List_Nil,
 														_List_fromArray(
 															[
 																$elm$html$Html$text(
-																$elm$core$String$fromInt(minutes)),
-																$elm$html$Html$text(
-																(minutes === 1) ? ' minute ago' : ' minutes ago')
-															]));
-												}()
-												]))
-										])),
+																$elm$core$String$fromInt(minutes))
+															]))
+													])),
+												A2(
+												$elm$html$Html$td,
+												_List_fromArray(
+													[
+														A2($elm$html$Html$Attributes$style, 'text-align', 'left')
+													]),
+												_List_fromArray(
+													[
+														(minutes === 1) ? $elm$html$Html$text(' minute ago') : $elm$html$Html$text(' minutes ago')
+													]))
+											]));
+								}(),
 									A2(
 									$elm$html$Html$tr,
 									_List_Nil,
 									_List_fromArray(
 										[
 											A2(
-											$elm$html$Html$th,
+											$elm$html$Html$td,
 											_List_Nil,
 											_List_fromArray(
 												[

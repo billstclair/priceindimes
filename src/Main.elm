@@ -136,7 +136,7 @@ view model =
               in
               table []
                 [ tr []
-                    [ th [] [ b "Price:" ]
+                    [ td [] [ b "Price:" ]
                     , td [ style "text-align" "right" ]
                         [ input
                             [ type_ "text"
@@ -155,7 +155,7 @@ view model =
                         ]
                     ]
                 , tr []
-                    [ th
+                    [ td
                         (if not model.valid then
                             [ style "color" "red" ]
 
@@ -177,32 +177,38 @@ view model =
                         ]
                     , td [ style "text-align" "left" ]
                         [ text chars.nbsp
-                        , text "$/oz, "
-                        , b "Last set: "
-                        , let
-                            sinceLastSet =
-                                Time.posixToMillis model.now - Time.posixToMillis model.validTime
+                        , text "$/oz"
+                        ]
+                    ]
+                , let
+                    sinceLastSet =
+                        Time.posixToMillis model.now
+                            - Time.posixToMillis model.validTime
 
-                            minutes =
-                                sinceLastSet // (1000 * 60)
-                          in
-                          if minutes >= 5 then
-                            text "> 5 minutes ago"
+                    minutes =
+                        sinceLastSet // (1000 * 60)
+                  in
+                  tr []
+                    [ td []
+                        [ b "Last set: " ]
+                    , td [ style "text-align" "right" ]
+                        [ if minutes >= 5 then
+                            text "> 5"
 
                           else
                             span []
-                                [ text <| String.fromInt minutes
-                                , text <|
-                                    if minutes == 1 then
-                                        " minute ago"
+                                [ text <| String.fromInt minutes ]
+                        ]
+                    , td [ style "text-align" "left" ]
+                        [ if minutes == 1 then
+                            text " minute ago"
 
-                                    else
-                                        " minutes ago"
-                                ]
+                          else
+                            text " minutes ago"
                         ]
                     ]
                 , tr []
-                    [ th [] [ b "Dimes:" ]
+                    [ td [] [ b "Dimes:" ]
                     , td [ style "text-align" "right" ]
                         [ truncate (10.0 * dimes)
                             |> toFloat
@@ -277,33 +283,29 @@ update msg model =
             model |> withCmd (selectAll <| Debug.log "SelectAll" id)
 
         InputPrice string ->
-            let
-                m =
-                    { model | priceInput = Debug.log "InputPrice" string }
-            in
             case String.toFloat string of
+                Nothing ->
+                    model |> withNoCmd
+
                 Just price ->
-                    { m | price = price }
+                    { model
+                        | priceInput = string
+                        , price = price
+                    }
                         |> withNoCmd
 
-                Nothing ->
-                    m |> withNoCmd
-
         InputDollarsPerOz string ->
-            let
-                m =
-                    { model | dollarsPerOzInput = Debug.log "InputDollarsPerOz" string }
-            in
             case String.toFloat string of
+                Nothing ->
+                    model |> withNoCmd
+
                 Just dollarsPerOz ->
-                    { m
-                        | dollarsPerOz = dollarsPerOz
+                    { model
+                        | dollarsPerOzInput = string
+                        , dollarsPerOz = dollarsPerOz
                         , valid = True
                     }
                         |> withCmd (Task.perform SetValidTime Time.now)
-
-                Nothing ->
-                    m |> withNoCmd
 
         SetValidTime posix ->
             { model | validTime = posix }
