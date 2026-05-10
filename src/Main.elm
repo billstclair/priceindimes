@@ -39,10 +39,15 @@ main =
         { init = init
         , onUrlRequest = OnUrlRequest
         , onUrlChange = OnUrlChange
-        , subscriptions = \model -> Sub.none
+        , subscriptions = subscriptions
         , update = update
         , view = view
         }
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Time.every 1000 RecordTime
 
 
 type alias Model =
@@ -52,6 +57,7 @@ type alias Model =
     , dollarsPerOzInput : String
     , valid : Bool
     , validTime : Posix
+    , now : Posix
     , url : Url
     , key : Key
     }
@@ -66,6 +72,7 @@ type Msg
     | InputPrice String
     | InputDollarsPerOz String
     | SetValidTime Posix
+    | RecordTime Posix
 
 
 init : Value -> Url -> Key -> ( Model, Cmd Msg )
@@ -76,10 +83,11 @@ init flags url key =
     , dollarsPerOzInput = "76.83"
     , valid = False
     , validTime = Time.millisToPosix 0
+    , now = Time.millisToPosix 0
     , url = url
     , key = key
     }
-        |> withNoCmd
+        |> withCmd (Task.perform RecordTime Time.now)
 
 
 h1 : String -> Html msg
@@ -147,7 +155,14 @@ view model =
                         ]
                     ]
                 , tr []
-                    [ th [] [ b "Dollars/oz:" ]
+                    [ th
+                        (if not model.valid then
+                            [ style "color" "red" ]
+
+                         else
+                            []
+                        )
+                        [ b "Dollars/oz:" ]
                     , td [ style "text-align" "right" ]
                         [ input
                             [ type_ "text"
@@ -164,7 +179,26 @@ view model =
                         [ text chars.nbsp
                         , text "$/oz, "
                         , b "Last set: "
-                        , text <| Iso8601.fromTime model.validTime
+                        , let
+                            sinceLastSet =
+                                Time.posixToMillis model.now - Time.posixToMillis model.validTime
+
+                            minutes =
+                                sinceLastSet // (1000 * 60)
+                          in
+                          if minutes >= 5 then
+                            text "> 5 minutes ago"
+
+                          else
+                            span []
+                                [ text <| String.fromInt minutes
+                                , text <|
+                                    if minutes == 1 then
+                                        " minute ago"
+
+                                    else
+                                        " minutes ago"
+                                ]
                         ]
                     ]
                 , tr []
@@ -273,6 +307,23 @@ update msg model =
 
         SetValidTime posix ->
             { model | validTime = posix }
+                |> withNoCmd
+
+        RecordTime posix ->
+            let
+                now =
+                    Time.posixToMillis posix
+
+                passed =
+                    Time.posixToMillis posix - Time.posixToMillis model.validTime
+
+                minutesPassed =
+                    passed // (1000 * 60)
+            in
+            { model
+                | now = posix
+                , valid = minutesPassed < 5
+            }
                 |> withNoCmd
 
         OnUrlChange url ->
