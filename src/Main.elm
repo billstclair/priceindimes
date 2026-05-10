@@ -283,25 +283,41 @@ update msg model =
             model |> withCmd (selectAll <| Debug.log "SelectAll" id)
 
         InputPrice string ->
-            case String.toFloat string of
+            let
+                priceString =
+                    if string == "" then
+                        "0"
+
+                    else
+                        string
+            in
+            case String.toFloat priceString of
                 Nothing ->
                     model |> withNoCmd
 
                 Just price ->
                     { model
-                        | priceInput = string
+                        | priceInput = priceString
                         , price = price
                     }
                         |> withNoCmd
 
         InputDollarsPerOz string ->
-            case String.toFloat string of
+            let
+                priceString =
+                    if string == "" then
+                        "0"
+
+                    else
+                        string
+            in
+            case String.toFloat priceString of
                 Nothing ->
                     model |> withNoCmd
 
                 Just dollarsPerOz ->
                     { model
-                        | dollarsPerOzInput = string
+                        | dollarsPerOzInput = priceString
                         , dollarsPerOz = dollarsPerOz
                         , valid = True
                     }
