@@ -21,6 +21,7 @@ import Cmd.Extra exposing (addCmd, withCmd, withCmds, withNoCmd)
 import Html exposing (Html, a, div, fieldset, iframe, img, input, legend, p, span, table, td, text, textarea, th, tr, ul)
 import Html.Attributes exposing (align, checked, disabled, height, href, id, name, size, src, style, type_, value, width)
 import Html.Events exposing (onClick, onFocus, onInput)
+import Iso8601
 import Json.Encode as JE exposing (Value)
 import Task exposing (Task)
 import Time exposing (Posix)
@@ -50,7 +51,7 @@ type alias Model =
     , dollarsPerOz : Float
     , dollarsPerOzInput : String
     , valid : Bool
-    , validTime : Int
+    , validTime : Posix
     , url : Url
     , key : Key
     }
@@ -74,11 +75,11 @@ init flags url key =
     , dollarsPerOz = 76.83
     , dollarsPerOzInput = "76.83"
     , valid = False
-    , validTime = 0
+    , validTime = Time.millisToPosix 0
     , url = url
     , key = key
     }
-        |> withCmd (Task.perform SetValidTime Time.now)
+        |> withNoCmd
 
 
 h1 : String -> Html msg
@@ -161,7 +162,9 @@ view model =
                         ]
                     , td [ style "text-align" "left" ]
                         [ text chars.nbsp
-                        , text "$/oz"
+                        , text "$/oz, "
+                        , b "Last set: "
+                        , text <| Iso8601.fromTime model.validTime
                         ]
                     ]
                 , tr []
@@ -269,7 +272,7 @@ update msg model =
                     m |> withNoCmd
 
         SetValidTime posix ->
-            { model | validTime = Time.posixToMillis posix }
+            { model | validTime = posix }
                 |> withNoCmd
 
         OnUrlChange url ->
