@@ -273,6 +273,18 @@ addPointZero string =
         string ++ ".0"
 
 
+addZero : String -> String
+addZero string =
+    if string == "" then
+        "0"
+
+    else if String.left 1 string == "0" then
+        addZero <| String.dropLeft 1 string
+
+    else
+        string
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -285,11 +297,7 @@ update msg model =
         InputPrice string ->
             let
                 priceString =
-                    if string == "" then
-                        "0"
-
-                    else
-                        string
+                    addZero string
             in
             case String.toFloat priceString of
                 Nothing ->
@@ -305,11 +313,7 @@ update msg model =
         InputDollarsPerOz string ->
             let
                 priceString =
-                    if string == "" then
-                        "0"
-
-                    else
-                        string
+                    addZero string
             in
             case String.toFloat priceString of
                 Nothing ->

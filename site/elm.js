@@ -5646,6 +5646,10 @@ var $author$project$Main$subscriptions = function (model) {
 var $author$project$Main$SetValidTime = function (a) {
 	return {$: 'SetValidTime', a: a};
 };
+var $author$project$Main$addZero = function (string) {
+	return (string === '') ? '0' : ((A2($elm$core$String$left, 1, string) === '0') ? $author$project$Main$addZero(
+		A2($elm$core$String$dropLeft, 1, string)) : string);
+};
 var $elm$core$Debug$log = _Debug_log;
 var $author$project$Main$openWindow = _Platform_outgoingPort('openWindow', $elm$core$Basics$identity);
 var $elm$time$Time$posixToMillis = function (_v0) {
@@ -5675,7 +5679,8 @@ var $author$project$Main$update = F2(
 					model);
 			case 'InputPrice':
 				var string = msg.a;
-				var _v1 = $elm$core$String$toFloat(string);
+				var priceString = $author$project$Main$addZero(string);
+				var _v1 = $elm$core$String$toFloat(priceString);
 				if (_v1.$ === 'Nothing') {
 					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(model);
 				} else {
@@ -5683,11 +5688,12 @@ var $author$project$Main$update = F2(
 					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(
 						_Utils_update(
 							model,
-							{price: price, priceInput: string}));
+							{price: price, priceInput: priceString}));
 				}
 			case 'InputDollarsPerOz':
 				var string = msg.a;
-				var _v2 = $elm$core$String$toFloat(string);
+				var priceString = $author$project$Main$addZero(string);
+				var _v2 = $elm$core$String$toFloat(priceString);
 				if (_v2.$ === 'Nothing') {
 					return $Janiczek$cmd_extra$Cmd$Extra$withNoCmd(model);
 				} else {
@@ -5697,7 +5703,7 @@ var $author$project$Main$update = F2(
 						A2($elm$core$Task$perform, $author$project$Main$SetValidTime, $elm$time$Time$now),
 						_Utils_update(
 							model,
-							{dollarsPerOz: dollarsPerOz, dollarsPerOzInput: string, valid: true}));
+							{dollarsPerOz: dollarsPerOz, dollarsPerOzInput: priceString, valid: true}));
 				}
 			case 'SetValidTime':
 				var posix = msg.a;
