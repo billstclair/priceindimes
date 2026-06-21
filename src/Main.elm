@@ -229,7 +229,7 @@ view model =
                 , text "Copy that to the \"Dollars/oz\" input."
                 ]
             , iframe
-                [ src "https://www.kitco.com/price/precious-metals"
+                [ src "https:kitco.com/charts/silver" -- "https://www.kitco.com/price/precious-metals"
                 , width 400
                 , height 400
                 ]
