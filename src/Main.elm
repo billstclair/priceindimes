@@ -10,7 +10,7 @@
 ----------------------------------------------------------------------
 
 
-port module Main exposing (main)
+port module Main exposing (main, roundToDec)
 
 --
 
@@ -50,11 +50,35 @@ subscriptions model =
     Time.every 1000 RecordTime
 
 
+roundToDec : Int -> Float -> String
+roundToDec dec number =
+    let
+        mult =
+            10 ^ dec |> toFloat
+
+        shifted =
+            round (number * mult) |> toFloat |> String.fromFloat
+
+        len =
+            String.length shifted
+
+        adjusted =
+            if len > dec then
+                shifted
+
+            else
+                String.repeat (dec - len + 1) "0" ++ shifted
+    in
+    String.dropRight dec adjusted ++ "." ++ String.right dec adjusted
+
+
 type alias Model =
     { price : Float
     , priceInput : String
     , dollarsPerOz : Float
     , dollarsPerOzInput : String
+    , dimes : Float
+    , dimesInput : String
     , valid : Bool
     , validTime : Posix
     , now : Posix
@@ -76,12 +100,34 @@ type Msg
     | RecordTime Posix
 
 
+priceToDimes : Float -> Float -> Float
+priceToDimes price dollarsPerOz =
+    price / dollarsPerOz / (0.7734 / 10)
+
+
+dimesToPrice : Float -> Float -> Float
+dimesToPrice dimes dollarsPerOz =
+    dimes * (0.7734 / 10) * dollarsPerOz
+
+
 init : Value -> Url -> Key -> ( Model, Cmd Msg )
 init flags url key =
-    { price = 1.0
-    , priceInput = "1.0"
-    , dollarsPerOz = 76.83
-    , dollarsPerOzInput = "76.83"
+    let
+        price =
+            1.0
+
+        dollarsPerOz =
+            76.83
+
+        dimes =
+            priceToDimes price dollarsPerOz
+    in
+    { price = price
+    , priceInput = roundToDec 2 price
+    , dollarsPerOz = dollarsPerOz
+    , dollarsPerOzInput = roundToDec 2 dollarsPerOz
+    , dimes = dimes
+    , dimesInput = roundToDec 1 dimes
     , valid = False
     , validTime = Time.millisToPosix 0
     , now = Time.millisToPosix 0
@@ -133,7 +179,7 @@ view model =
                 -- A dime is 1/10 that much.
                 -- one dime = 0.0734 troy ounces.
                 dimes =
-                    model.price / model.dollarsPerOz / (0.7734 / 10)
+                    priceToDimes model.price model.dollarsPerOz
               in
               table []
                 [ tr []
@@ -218,13 +264,7 @@ view model =
                             , onInput InputDimes
                             , onFocus (AfterFocus "dimes")
                             , id "dimes"
-                            , value
-                                (truncate (10.0 * dimes)
-                                    |> toFloat
-                                    |> (\x -> x / 10.0)
-                                    |> String.fromFloat
-                                    |> addPointZero
-                                )
+                            , value <| model.dimesInput
                             ]
                             []
                         ]
@@ -312,12 +352,18 @@ update msg model =
             in
             case String.toFloat priceString of
                 Nothing ->
-                    model |> withNoCmd
+                    { model | priceInput = string } |> withNoCmd
 
                 Just price ->
+                    let
+                        dimes =
+                            priceToDimes price model.dollarsPerOz
+                    in
                     { model
                         | priceInput = priceString
                         , price = price
+                        , dimes = dimes
+                        , dimesInput = roundToDec 1 dimes
                     }
                         |> withNoCmd
 
@@ -328,19 +374,44 @@ update msg model =
             in
             case String.toFloat priceString of
                 Nothing ->
-                    model |> withNoCmd
+                    { model | dollarsPerOzInput = string } |> withNoCmd
 
                 Just dollarsPerOz ->
+                    let
+                        dimes =
+                            priceToDimes model.price dollarsPerOz
+                    in
                     { model
                         | dollarsPerOzInput = priceString
                         , dollarsPerOz = dollarsPerOz
+                        , dimes = dimes
+                        , dimesInput = roundToDec 1 dimes
                         , valid = True
                     }
                         |> withCmd (Task.perform SetValidTime Time.now)
 
         InputDimes string ->
-            -- TODO
-            model |> withNoCmd
+            let
+                priceString =
+                    addZero string
+            in
+            case String.toFloat priceString of
+                Nothing ->
+                    { model | dimesInput = string } |> withNoCmd
+
+                Just dimes ->
+                    let
+                        price =
+                            dimesToPrice dimes model.dollarsPerOz
+                    in
+                    { model
+                        | dimes = dimes
+                        , dimesInput = string
+                        , price = price
+                        , priceInput = roundToDec 2 price
+                        , valid = True
+                    }
+                        |> withCmd (Task.perform SetValidTime Time.now)
 
         SetValidTime posix ->
             { model | validTime = posix }
