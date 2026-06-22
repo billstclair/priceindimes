@@ -10,7 +10,7 @@
 ----------------------------------------------------------------------
 
 
-port module Main exposing (main, roundToDec)
+port module Main exposing (main)
 
 --
 
@@ -100,34 +100,36 @@ type Msg
     | RecordTime Posix
 
 
+truncateToDec : Int -> (Float -> Int) -> Float -> Float
+truncateToDec dec rounder number =
+    let
+        mul =
+            10 ^ dec |> toFloat
+    in
+    (number
+        * mul
+        |> rounder
+        |> toFloat
+    )
+        / mul
+
+
 priceToDimes : Float -> Float -> Float
 priceToDimes price dollarsPerOz =
-    (((Debug.log "priceToDimes, price" price
-        / Debug.log "  dollarsPerOz" dollarsPerOz
+    (price
+        / dollarsPerOz
         / (0.7734 / 10)
-      )
-        * 10
-        |> round
-        |> toFloat
-     )
-        / 10
     )
-        |> Debug.log "  ="
+        |> truncateToDec 1 ceiling
 
 
 dimesToPrice : Float -> Float -> Float
 dimesToPrice dimes dollarsPerOz =
-    (((Debug.log "dimesToPrice, dimes" dimes
+    (dimes
         * (0.7734 / 10)
-        * Debug.log "  dollarsPerOz" dollarsPerOz
-      )
-        * 100
-        |> round
-        |> toFloat
-     )
-        / 100
+        * dollarsPerOz
     )
-        |> Debug.log "  ="
+        |> truncateToDec 2 floor
 
 
 init : Value -> Url -> Key -> ( Model, Cmd Msg )
@@ -369,12 +371,15 @@ update msg model =
 
                 Just price ->
                     let
+                        roundedPrice =
+                            truncateToDec 2 round price
+
                         dimes =
-                            priceToDimes price model.dollarsPerOz
+                            priceToDimes roundedPrice model.dollarsPerOz
                     in
                     { model
                         | priceInput = priceString
-                        , price = price
+                        , price = roundedPrice
                         , dimes = dimes
                         , dimesInput = roundToDec 1 dimes
                     }
@@ -391,12 +396,15 @@ update msg model =
 
                 Just dollarsPerOz ->
                     let
+                        roundedDollarsPerOz =
+                            truncateToDec 2 round dollarsPerOz
+
                         dimes =
-                            priceToDimes model.price dollarsPerOz
+                            priceToDimes model.price roundedDollarsPerOz
                     in
                     { model
                         | dollarsPerOzInput = string
-                        , dollarsPerOz = dollarsPerOz
+                        , dollarsPerOz = roundedDollarsPerOz
                         , dimes = dimes
                         , dimesInput = roundToDec 1 dimes
                         , valid = True
@@ -414,11 +422,14 @@ update msg model =
 
                 Just dimes ->
                     let
+                        roundedDimes =
+                            truncateToDec 1 round dimes
+
                         price =
-                            dimesToPrice dimes model.dollarsPerOz
+                            dimesToPrice roundedDimes model.dollarsPerOz
                     in
                     { model
-                        | dimes = dimes
+                        | dimes = roundedDimes
                         , dimesInput = string
                         , price = price
                         , priceInput = roundToDec 2 price
