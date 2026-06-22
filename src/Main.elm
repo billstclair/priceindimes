@@ -102,12 +102,32 @@ type Msg
 
 priceToDimes : Float -> Float -> Float
 priceToDimes price dollarsPerOz =
-    price / dollarsPerOz / (0.7734 / 10)
+    (((Debug.log "priceToDimes, price" price
+        / Debug.log "  dollarsPerOz" dollarsPerOz
+        / (0.7734 / 10)
+      )
+        * 10
+        |> round
+        |> toFloat
+     )
+        / 10
+    )
+        |> Debug.log "  ="
 
 
 dimesToPrice : Float -> Float -> Float
 dimesToPrice dimes dollarsPerOz =
-    dimes * (0.7734 / 10) * dollarsPerOz
+    (((Debug.log "dimesToPrice, dimes" dimes
+        * (0.7734 / 10)
+        * Debug.log "  dollarsPerOz" dollarsPerOz
+      )
+        * 100
+        |> round
+        |> toFloat
+     )
+        / 100
+    )
+        |> Debug.log "  ="
 
 
 init : Value -> Url -> Key -> ( Model, Cmd Msg )
@@ -174,14 +194,7 @@ view model =
                     ]
                     []
                 ]
-            , let
-                -- One silver dollar is 0.7734 troy ounces.
-                -- A dime is 1/10 that much.
-                -- one dime = 0.0734 troy ounces.
-                dimes =
-                    priceToDimes model.price model.dollarsPerOz
-              in
-              table []
+            , table []
                 [ tr []
                     [ td [] [ b "Price:" ]
                     , td [ style "text-align" "right" ]
@@ -382,7 +395,7 @@ update msg model =
                             priceToDimes model.price dollarsPerOz
                     in
                     { model
-                        | dollarsPerOzInput = priceString
+                        | dollarsPerOzInput = string
                         , dollarsPerOz = dollarsPerOz
                         , dimes = dimes
                         , dimesInput = roundToDec 1 dimes
