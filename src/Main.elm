@@ -71,6 +71,7 @@ type Msg
     | ReloadFromServer
     | InputPrice String
     | InputDollarsPerOz String
+    | InputDimes String
     | SetValidTime Posix
     | RecordTime Posix
 
@@ -210,12 +211,22 @@ view model =
                 , tr []
                     [ td [] [ b "Dimes:" ]
                     , td [ style "text-align" "right" ]
-                        [ truncate (10.0 * dimes)
-                            |> toFloat
-                            |> (\x -> x / 10.0)
-                            |> String.fromFloat
-                            |> addPointZero
-                            |> text
+                        [ input
+                            [ type_ "text"
+                            , size pINPUT_SIZE
+                            , style "text-align" "right"
+                            , onInput InputDimes
+                            , onFocus (AfterFocus "dimes")
+                            , id "dimes"
+                            , value
+                                (truncate (10.0 * dimes)
+                                    |> toFloat
+                                    |> (\x -> x / 10.0)
+                                    |> String.fromFloat
+                                    |> addPointZero
+                                )
+                            ]
+                            []
                         ]
                     , td [ style "text-align" "left" ]
                         [ text chars.nbsp
@@ -326,6 +337,10 @@ update msg model =
                         , valid = True
                     }
                         |> withCmd (Task.perform SetValidTime Time.now)
+
+        InputDimes string ->
+            -- TODO
+            model |> withNoCmd
 
         SetValidTime posix ->
             { model | validTime = posix }
