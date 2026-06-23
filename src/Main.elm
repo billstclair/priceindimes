@@ -1,4 +1,4 @@
----------------------------------------------------------------
+--------------------------------------------------------------
 --
 -- Main.elm
 -- priceindimes - convert USD to silver dimes.
@@ -120,7 +120,7 @@ priceToDimes price dollarsPerOz =
         / dollarsPerOz
         / (0.7734 / 10)
     )
-        |> truncateToDec 1 ceiling
+        |> truncateToDec 1 round
 
 
 dimesToPrice : Float -> Float -> Float
@@ -129,7 +129,7 @@ dimesToPrice dimes dollarsPerOz =
         * (0.7734 / 10)
         * dollarsPerOz
     )
-        |> truncateToDec 2 floor
+        |> truncateToDec 2 round
 
 
 init : Value -> Url -> Key -> ( Model, Cmd Msg )
@@ -139,7 +139,7 @@ init flags url key =
             1.0
 
         dollarsPerOz =
-            76.83
+            1.0 / 0.7734
 
         dimes =
             priceToDimes price dollarsPerOz
@@ -293,6 +293,10 @@ view model =
                 [ text "Scroll down the iframe below to see the current silver price (from Kitco)."
                 , br
                 , text "Copy that to the \"Dollars/oz\" input."
+                , br
+                , text "Set \"Price\" to calculate \"Dimes\"."
+                , br
+                , text "Set \"Dimes\" to calcualte \"Price\"."
                 ]
             , iframe
                 [ src "https://www.kitco.com/price/precious-metals"
