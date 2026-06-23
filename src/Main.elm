@@ -77,6 +77,7 @@ type alias Model =
     , priceInput : String
     , dollarsPerOz : Float
     , dollarsPerOzInput : String
+    , inflation : Float
     , dimes : Float
     , dimesInput : String
     , valid : Bool
@@ -141,6 +142,9 @@ init flags url key =
         dollarsPerOz =
             1.0 / 0.7734
 
+        inflation =
+            dollarsPerOz * 0.7734
+
         dimes =
             priceToDimes price dollarsPerOz
     in
@@ -148,6 +152,7 @@ init flags url key =
     , priceInput = roundToDec 2 price
     , dollarsPerOz = dollarsPerOz
     , dollarsPerOzInput = roundToDec 2 dollarsPerOz
+    , inflation = inflation
     , dimes = dimes
     , dimesInput = roundToDec 1 dimes
     , valid = False
@@ -241,6 +246,8 @@ view model =
                         [ text chars.nbsp
                         , text "$/oz"
                         ]
+                    , text "Inflation since 1963: "
+                    , text <| roundToDec 2 model.inflation
                     ]
                 , let
                     sinceLastSet =
@@ -403,12 +410,16 @@ update msg model =
                         roundedDollarsPerOz =
                             truncateToDec 2 round dollarsPerOz
 
+                        inflation =
+                            roundedDollarsPerOz * 0.7734
+
                         dimes =
                             priceToDimes model.price roundedDollarsPerOz
                     in
                     { model
                         | dollarsPerOzInput = string
                         , dollarsPerOz = roundedDollarsPerOz
+                        , inflation = inflation
                         , dimes = dimes
                         , dimesInput = roundToDec 1 dimes
                         , valid = True
