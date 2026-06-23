@@ -303,7 +303,7 @@ view model =
                 , br
                 , text "Set \"Price\" to calculate \"Dimes\"."
                 , br
-                , text "Set \"Dimes\" to calcualte \"Price\"."
+                , text "Set \"Dimes\" to calculate \"Price\"."
                 ]
             , iframe
                 [ src "https://www.kitco.com/price/precious-metals"
