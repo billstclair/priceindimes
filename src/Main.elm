@@ -181,7 +181,7 @@ br =
 
 
 pINPUT_SIZE =
-    5
+    8
 
 
 view : Model -> Document Msg
