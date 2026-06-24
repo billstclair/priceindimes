@@ -246,7 +246,7 @@ view model =
                         [ text chars.nbsp
                         , text "$/oz"
                         ]
-                    , text "Inflation since 1963: "
+                    , text "Inflation since 1964: "
                     , text <| roundToDec 2 model.inflation
                     ]
                 , let
